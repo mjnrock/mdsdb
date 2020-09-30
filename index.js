@@ -1,21 +1,28 @@
 import Builder, { FetchJson } from "./lib/Builder";
 
-//! Thenable
-Builder({
+const OBJ = {
     dog: 3,
+    goat: (obj, ...args) => {
+        // console.log(obj);
+        // console.log(...args);
+
+        return args[ 0 ];
+    },
     fish: () => Math.random(),
     bird: () => Date.now(),
-    cat: FetchJson("http://api.open-notify.org/iss-now.json"),
     squirrel: {
-        chip: "a#@$fmd1ji23",
+        cat: FetchJson("http://api.open-notify.org/iss-now.json"),
         meese: true,
         squirrel: {
             chip: "223542352353",
             meese: false,
         }
     }
-}).then(obj => {
-    console.log(obj);
+};
+
+//! Thenable
+Builder(OBJ, 40).then(obj => {
+    console.log(obj)
 });
 
 //! AIIFE
