@@ -1,14 +1,16 @@
 {
-  "name": "api",
-  "version": "0.1.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-      "esm": "^3.2.25",
-      "mongodb": "^3.6.2",
-      "node-fetch": "^2.6.1"
-  },
-  "scripts": {
-      "start": "node esm-index.js"
-  }
+    "name": "api",
+    "version": "0.1.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "esm": "^3.2.25",
+        "express": "^4.17.1",
+        "express-ws": "^4.0.0",
+        "mongodb": "^3.6.2",
+        "node-fetch": "^2.6.1"
+    },
+    "scripts": {
+        "start": "node esm-index.js"
+    }
 }

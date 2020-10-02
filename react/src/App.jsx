@@ -1,8 +1,11 @@
 import React from "react";
+import { Segment } from "semantic-ui-react";
 
 function App() {
     return (
-        <div>Test</div>
+        <Segment>
+            <div>Test</div>
+        </Segment>
     );
 }
 
