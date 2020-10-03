@@ -1,10 +1,16 @@
 import React from "react";
 import { Segment } from "semantic-ui-react";
 
+import Input from "./components/Input";
+
 function App() {
     return (
         <Segment>
-            <div>Test</div>
+            <Input value={ "13" } validator={ value => {
+                console.log(value);
+
+                return typeof value === "number";
+            }} />
         </Segment>
     );
 }
