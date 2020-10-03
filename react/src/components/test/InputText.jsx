@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Lib_InputText from "../lib/prompt/InputText";
+import Lib_InputText from "../../lib/test/prompt/InputText";
 import { Input } from "semantic-ui-react";
 
 export default function InputText(props = {}) {

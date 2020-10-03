@@ -1,12 +1,11 @@
 import React from "react";
 import { Segment } from "semantic-ui-react";
-
-import InputText from "./components/InputText";
+import Survey from "./components/survey/create/Survey";
 
 function App() {
     return (
         <Segment>
-            <InputText validator={ value => /^\d+$/i.test(value) } />
+            <Survey />
         </Segment>
     );
 }
