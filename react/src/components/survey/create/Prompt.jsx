@@ -8,7 +8,7 @@ export default function Prompt(props = {}) {
     const [ text, setText ] = useState("");
 
     return (
-        <Segment basic>
+        <Segment basic color="green">
             <MarkdownEditor onUpdate={ setText } placeholder="Add Prompt Text..." />
         </Segment>
     );

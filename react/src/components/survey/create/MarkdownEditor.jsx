@@ -5,7 +5,7 @@ export default function MarkdownEditor({ onUpdate, options = {}, placeholder, ..
     const [ text, setText ] = useState("");
 
     useEffect(() => {
-        if(typeof onUpdate === "function") {
+        if(typeof onUpdate === "function" && !!text) {
             onUpdate(text);
         }
     }, [ text, onUpdate ]);

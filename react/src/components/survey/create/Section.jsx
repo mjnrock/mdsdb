@@ -1,38 +1,49 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Segment, Icon, Menu } from "semantic-ui-react";
 
 import MarkdownEditor from "./MarkdownEditor";
 import Prompt from "./Prompt";
 
 export default function Section(props = {}) {
-    const [ text, setText ] = useState("");
-    const [ prompts, setPrompts ] = useState([
-        {
-            text: "Test copy",
-            inputs: [
-                {
-                    type: 1,
-                    value: null,
-                    validator: () => true,
-                }
-            ],
+    const [ text, setText ] = useState();
+    const [ prompts, setPrompts ] = useState([]);
+
+    useEffect(() => {
+        if(props.section.text && props.section.text.length) {
+            setText(props.section.text);
         }
-    ]);
+    }, [ props ]);
+
+    function addPrompt(type) {
+        setPrompts([
+            ...prompts,
+            {
+                text: "Lorem ipsum...",
+                inputs: [
+                    {
+                        type: type,
+                        value: null,
+                        validator: () => true,
+                    }
+                ],
+            }
+        ])
+    }
 
     return (
-        <Segment color="blue">
-            <MarkdownEditor onUpdate={ setText } placeholder="Add Section Text..." />
+        <Segment color="teal">
+            <MarkdownEditor onUpdate={ setText } placeholder="Add Section Text..." value={ text }/>
             
             {
-                prompts.map(prompt => (
-                    <Prompt key={ Math.random() }/>
+                prompts.map((prompt, i) => (
+                    <Prompt key={ i } prompt={ prompt } />
                 ))
             }
             <Menu attached="bottom" secondary>
                 <Menu.Item header>Prompt</Menu.Item>
 
-                <Menu.Item name="text">
+                <Menu.Item name="text" onClick={ e => addPrompt(1) }>
                     <Icon.Group size="large">
                         <Icon name="font" />
                         <Icon corner="bottom right" name="add" color="blue" />

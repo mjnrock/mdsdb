@@ -8,6 +8,17 @@ import Section from "./Section";
 export default function Survey(props = {}) {
     const [ title, setTitle ] = useState("");
     const [ instructions, setInstructions ] = useState("");
+    const [ sections, setSections ] = useState([]);
+
+    function addSection(type) {
+        setSections([
+            ...sections,            
+            {
+                text: "",
+                prompts: [],
+            }
+        ]);
+    }
 
     return (
         <Segment color="blue">
@@ -18,13 +29,17 @@ export default function Survey(props = {}) {
                 onChange={ e => setTitle(e.target.value) }
             />
             
-            <MarkdownEditor onUpdate={ setInstructions } placeholder="Add Survey Instructions..." style={{ marginTop: 8 }} />
+            <MarkdownEditor onUpdate={ setInstructions } placeholder="Add Survey Instructions..." value={ instructions } style={{ marginTop: 8 }} />
 
-            <Section />
+            {
+                sections.map((section, i) => (
+                    <Section key={ i } section={ section } />
+                ))
+            }
             <Menu attached="bottom" secondary>
                 <Menu.Item header>Section</Menu.Item>
 
-                <Menu.Item name="text">
+                <Menu.Item name="text" onClick={ e => addSection() }>
                     <Icon.Group size="large">
                         <Icon name="list alternate outline" />
                         <Icon corner="bottom right" name="add" color="blue" />
