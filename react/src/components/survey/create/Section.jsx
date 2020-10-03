@@ -49,9 +49,33 @@ export default function Section(props = {}) {
                         <Icon corner="bottom right" name="add" color="blue" />
                     </Icon.Group>
                 </Menu.Item>
+                <Menu.Item name="text">
+                    <Icon.Group size="large">
+                        <Icon name="hashtag" />
+                        <Icon corner="bottom right" name="add" color="blue" />
+                    </Icon.Group>
+                </Menu.Item>
                 <Menu.Item name="selection">
                     <Icon.Group size="large">
-                        <Icon name="list" />
+                        <Icon name="list ol" />
+                        <Icon corner="bottom right" name="add" color="blue" />
+                    </Icon.Group>
+                </Menu.Item>
+                <Menu.Item name="selection">
+                    <Icon.Group size="large">
+                        <Icon name="hourglass half" />
+                        <Icon corner="bottom right" name="add" color="blue" />
+                    </Icon.Group>
+                </Menu.Item>
+                <Menu.Item name="selection">
+                    <Icon.Group size="large">
+                        <Icon name="calendar alternate outline" />
+                        <Icon corner="bottom right" name="add" color="blue" />
+                    </Icon.Group>
+                </Menu.Item>
+                <Menu.Item name="selection">
+                    <Icon.Group size="large">
+                        <Icon name="clock outline" />
                         <Icon corner="bottom right" name="add" color="blue" />
                     </Icon.Group>
                 </Menu.Item>

@@ -28,7 +28,7 @@ export default function Survey(props = {}) {
 
                 <Menu.Item name="text">
                     <Icon.Group size="large">
-                        <Icon name="sitemap" />
+                        <Icon name="list alternate outline" />
                         <Icon corner="bottom right" name="add" color="blue" />
                     </Icon.Group>
                 </Menu.Item>
