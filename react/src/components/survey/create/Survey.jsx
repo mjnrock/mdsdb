@@ -1,17 +1,29 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { Segment, Input, Menu, Icon } from "semantic-ui-react";
+import { useNodeContext } from "./../../../lib/ReactContext";
+import { Context, EnumMessageType } from "./../../../App";
 
 import MarkdownEditor from "./MarkdownEditor";
 import Section from "./Section";
 
-//! TODO State must either be parent-child binding, or via dispatched message
-//! Add @swarm message system
-
 export default function Survey(props = {}) {
+    const { node, state } = useNodeContext(Context);
     const [ title, setTitle ] = useState("");
     const [ instructions, setInstructions ] = useState("");
     const [ sections, setSections ] = useState([]);
+
+    useEffect(() => {
+        node.next(EnumMessageType.SURVEY_TITLE, {
+            title,
+        });
+    }, [ title ]);
+
+    useEffect(() => {
+        node.next(EnumMessageType.SURVEY_INSTRUCTIONS, {
+            instructions,
+        });
+    }, [ instructions ]);
 
     function addSection(type) {
         setSections([
@@ -28,11 +40,7 @@ export default function Survey(props = {}) {
             <Segment color="red" secondary>
                 <pre>
                     {
-                        JSON.stringify({
-                            title,
-                            instructions,
-                            sections,
-                        }, null, 2)
+                        JSON.stringify(state, null, 2)
                     }
                 </pre>
             </Segment>
