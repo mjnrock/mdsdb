@@ -1,6 +1,8 @@
+/* eslint-disable */
 import React, { useState } from "react";
-import { Segment, Input, TextArea, Menu, Icon } from "semantic-ui-react";
+import { Segment, Input, Menu, Icon } from "semantic-ui-react";
 
+import MarkdownEditor from "./MarkdownEditor";
 import Section from "./Section";
 
 export default function Survey(props = {}) {
@@ -15,12 +17,8 @@ export default function Survey(props = {}) {
                 value={ title }
                 onChange={ e => setTitle(e.target.value) }
             />
-
-            <TextArea
-                placeholder="Add Instructions..."
-                value={ instructions }
-                onChange={ e => setInstructions(e.target.value) }
-            />
+            
+            <MarkdownEditor onUpdate={ setInstructions } placeholder="Add Survey Instructions..." style={{ marginTop: 8 }} />
 
             <Section />
             <Menu attached="bottom" secondary>

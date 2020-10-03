@@ -1,6 +1,8 @@
+/* eslint-disable */
 import React, { useState } from "react";
-import { Segment, TextArea, Button, Icon, Container, Grid, Menu } from "semantic-ui-react";
+import { Segment, Icon, Menu } from "semantic-ui-react";
 
+import MarkdownEditor from "./MarkdownEditor";
 import Prompt from "./Prompt";
 
 export default function Section(props = {}) {
@@ -19,21 +21,8 @@ export default function Section(props = {}) {
     ]);
 
     return (
-        <Segment color="blue">            
-            <Grid>
-                <Grid.Column width={ 15 }>
-                    <TextArea
-                        placeholder="Add Section Details..."
-                        value={ text }
-                        onChange={ e => setText(e.target.value) }
-                    />
-                </Grid.Column>
-                <Grid.Column width={ 1 }>
-                    <Button icon floated="right" basic>
-                        <Icon name="bars" />
-                    </Button>
-                </Grid.Column>
-            </Grid>
+        <Segment color="blue">
+            <MarkdownEditor onUpdate={ setText } placeholder="Add Section Text..." />
             
             {
                 prompts.map(prompt => (
