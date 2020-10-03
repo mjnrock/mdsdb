@@ -1,5 +1,16 @@
 import Input, { EnumInputType } from "./Input";
 
+export const EnumTextType = {
+    STRING: 1,
+    NUMBER: 2,
+    DATE: 3,
+    TIME: 4,
+    DATE_TIME: 5,
+    INTEGER: 6,
+
+    TEXTAREA: 99,
+};
+
 export default class InputText extends Input {
     constructor({ textType, validator, value } = {}) {
         super({
