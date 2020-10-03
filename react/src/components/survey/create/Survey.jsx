@@ -5,6 +5,9 @@ import { Segment, Input, Menu, Icon } from "semantic-ui-react";
 import MarkdownEditor from "./MarkdownEditor";
 import Section from "./Section";
 
+//! TODO State must either be parent-child binding, or via dispatched message
+//! Add @swarm message system
+
 export default function Survey(props = {}) {
     const [ title, setTitle ] = useState("");
     const [ instructions, setInstructions ] = useState("");
@@ -22,6 +25,18 @@ export default function Survey(props = {}) {
 
     return (
         <Segment color="blue">
+            <Segment color="red" secondary>
+                <pre>
+                    {
+                        JSON.stringify({
+                            title,
+                            instructions,
+                            sections,
+                        }, null, 2)
+                    }
+                </pre>
+            </Segment>
+
             <Input
                 fluid
                 placeholder="Survey Title"
