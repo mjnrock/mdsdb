@@ -1,13 +1,19 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Menu } from "semantic-ui-react";
+import { Segment, Icon, Menu, Button } from "semantic-ui-react";
+import MarkdownViewer from "react-markdown";
+import { useNodeContext } from "./../../../lib/ReactContext";
+import { Context } from "./../../../App";
+import { EnumMessageType } from "./../../../state/state";
 
 import MarkdownEditor from "./MarkdownEditor";
 import Prompt from "./Prompt";
 
 export default function Section(props = {}) {
+    const { node } = useNodeContext(Context);
     const [ text, setText ] = useState();
-    const [ prompts, setPrompts ] = useState([]);
+    const [ isVisible, setIsVisible ] = useState(true);
+    const prompts = props.section.prompts;
 
     useEffect(() => {
         if(props.section.text && props.section.text.length) {
@@ -15,29 +21,58 @@ export default function Section(props = {}) {
         }
     }, [ props ]);
 
+    useEffect(() => {
+        node.next(EnumMessageType.SECTION_TEXT, {
+            section: props.section,
+            text,
+        });
+    }, [ text ]);
+
     function addPrompt(type) {
-        setPrompts([
-            ...prompts,
-            {
-                text: "Lorem ipsum...",
-                inputs: [
-                    {
-                        type: type,
-                        value: null,
-                        validator: () => true,
-                    }
-                ],
-            }
-        ])
+        node.next(EnumMessageType.PROMPT_ADD, {
+            type,
+            section: props.section,
+        });
+    }
+    function removeSection() {
+        node.next(EnumMessageType.SECTION_REMOVE, {
+            section: props.section,
+        });
     }
 
     return (
-        <Segment color="teal">
-            <MarkdownEditor onUpdate={ setText } placeholder="Add Section Text..." value={ text }/>
+        <Segment basic color="teal" style={{ paddingRight: 0 }}>
+            <Menu size="mini" style={{ marginBottom: 10 }}>
+                <Menu.Item header>Section</Menu.Item>
+
+                <Menu.Menu position="right">
+                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
+                        <Button basic labelPosition="left">
+                            <Icon name={ isVisible ? "unhide" : "pencil" } />
+                            { isVisible ? "Hide Editor" : "Show Editor" }
+                        </Button>
+                    </Menu.Item>
+                    
+                    <Menu.Item onClick={ removeSection }>
+                        <Button basic labelPosition="left">
+                            <Icon name="x" color="red" />
+                            Remove Section
+                        </Button>
+                    </Menu.Item>
+                </Menu.Menu>
+            </Menu>
             
             {
-                prompts.map((prompt, i) => (
-                    <Prompt key={ i } prompt={ prompt } />
+                isVisible ? (
+                    <MarkdownEditor onUpdate={ setText } placeholder="Add Section Text..." value={ text }/>
+                ) : (
+                    <MarkdownViewer source={ text } />
+                )
+            }
+            
+            {
+                prompts.map(prompt => (
+                    <Prompt key={ prompt.id } prompt={ prompt } section={ props.section } />
                 ))
             }
             <Menu attached="bottom" secondary>

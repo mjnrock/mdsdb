@@ -15,7 +15,7 @@ export default function MarkdownEditor({ onUpdate, options = {}, placeholder, ..
             value={ text }
             onChange={ setText }
             options={{
-                showIcons: [ "code", "table", "strikethrough", "horizontal-rule" ],
+                showIcons: [ "code", "table", "horizontal-rule" ],
                 hideIcons: [ "fullscreen", "side-by-side" ],
                 placeholder,
                 status: false,
