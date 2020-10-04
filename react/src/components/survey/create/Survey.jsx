@@ -43,31 +43,34 @@ export default function Survey(props = {}) {
                 </pre>
             </Segment>
 
-            <Segment color="green">
+            <Segment color="black" style={{ paddingTop: 0 }}>
+                <Menu style={{ marginTop: 8, marginBottom: 20 }} >
+                    <Menu.Item header style={{ color: "rgb(118, 118, 118)" }}>
+                        Survey
+                    </Menu.Item>
+
+                    <Menu.Item name="text" onClick={ e => addSection() }>
+                        <Icon.Group size="large">
+                            <Icon name="list alternate outline" color="grey" />
+                            <Icon corner="bottom right" name="add" color="grey" />
+                        </Icon.Group>
+                    </Menu.Item>
+                </Menu>
+
                 <Input
                     fluid
-                    placeholder="Survey Title"
+                    placeholder="[ Survey Title ]"
                     value={ title }
                     onChange={ e => setTitle(e.target.value) }
                 />
                 
-                <MarkdownEditor onUpdate={ setInstructions } placeholder="Add Survey Instructions..." value={ instructions } style={{ marginTop: 8 }} />
+                <MarkdownEditor onUpdate={ setInstructions } placeholder="[ Survey Instructions ]" value={ instructions } style={{ marginTop: 8 }} />
 
                 {
                     sections.map(section => (
                         <Section key={ section.id } section={ section } />
                     ))
                 }
-                <Menu attached="bottom" secondary>
-                    <Menu.Item header>Section</Menu.Item>
-
-                    <Menu.Item name="text" onClick={ e => addSection() }>
-                        <Icon.Group size="large">
-                            <Icon name="list alternate outline" />
-                            <Icon corner="bottom right" name="add" color="teal" />
-                        </Icon.Group>
-                    </Menu.Item>
-                </Menu>
             </Segment>
         </>
     );

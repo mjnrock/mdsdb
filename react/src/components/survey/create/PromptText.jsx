@@ -1,14 +1,14 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Menu, Button, Icon } from "semantic-ui-react";
+import { Segment, Menu, Button, Icon, Label, Tab, Table, Input } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
-import { useNodeContext } from "./../../../lib/ReactContext";
-import { Context } from "./../../../App";
-import { EnumMessageType } from "./../../../state/state";
+import { useNodeContext } from "../../../lib/ReactContext";
+import { Context } from "../../../App";
+import { EnumMessageType } from "../../../state/state";
 
 import MarkdownEditor from "./MarkdownEditor";
 
-export default function Prompt(props = {}) {
+export default function PromptText(props = {}) {
     const { node } = useNodeContext(Context);
     const [ text, setText ] = useState("");
     const [ isVisible, setIsVisible ] = useState(true);
@@ -28,9 +28,11 @@ export default function Prompt(props = {}) {
     }
 
     return (
-        <Segment basic color="blue" style={{ paddingRight: 0, paddingBottom: 0 }}>
-            <Menu size="mini" style={{ marginBottom: 10 }}>
-                <Menu.Item header>Prompt</Menu.Item>
+        <Segment basic color="red" style={ { paddingRight: 0, paddingTop: 0, paddingBottom: 0 } }>
+            <Menu size="mini" style={{ marginTop: 8, marginBottom: 8 }} >
+                {/* <Menu.Item header style={ { color: "rgb(33, 133, 208)" } }>Prompt</Menu.Item> */}
+                <Menu.Item header style={ { color: "rgb(219, 40, 40)" } }>Free Text</Menu.Item>
+                <Menu.Item header style={ { fontFamily: "monospace", fontWeight: 100, color: "#bbb" } }>{ props.prompt.id }</Menu.Item>
 
                 <Menu.Menu position="right">
                     <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
@@ -42,16 +44,16 @@ export default function Prompt(props = {}) {
 
                     <Menu.Item onClick={ removePrompt }>
                         <Button basic labelPosition="left">
-                            <Icon name="x" color="red" />
+                            <Icon name="trash alternate outline" color="red" />
                             Remove Prompt
                         </Button>
                     </Menu.Item>
                 </Menu.Menu>
             </Menu>
-            
+
             {
                 isVisible ? (
-                    <MarkdownEditor onUpdate={ setText } placeholder="Add Prompt Text..." value={ text } />
+                    <MarkdownEditor onUpdate={ setText } placeholder="[ Prompt Text ]" value={ text } />
                 ) : (
                     <MarkdownViewer source={ text } />
                 )
