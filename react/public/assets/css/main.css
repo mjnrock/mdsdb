@@ -31,3 +31,7 @@ textarea::placeholder {
 .CodeMirror-scroll {
     min-height: 60px !important;
 }
+
+.icon-no-margin {
+    margin: 0 !important;
+}

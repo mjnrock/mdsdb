@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Menu, Button, TextArea } from "semantic-ui-react";
+import { Segment, Icon, Menu, Button } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
+
 import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../App";
 import { EnumMessageType } from "./../../../state/state";
@@ -12,7 +13,7 @@ import PromptSelection from "./PromptSelection";
 
 export default function Section(props = {}) {
     const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState();
+    const [ text, setText ] = useState(props.section.text);
     const [ isVisible, setIsVisible ] = useState(true);
     const prompts = props.section.prompts;
 

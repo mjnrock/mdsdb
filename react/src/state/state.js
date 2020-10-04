@@ -11,6 +11,9 @@ const StateNode = new Node({
     },
 });
 
+//! TODO Create "preset" options for PromptSelection (T/F, Y/N, Y/M/N, 1-5, 1-10, etc. -- Values only, Values/Labels, etc.)
+//! TODO Create a Survey renderer that consumes a Survey state -- upon designing Survey, save to DB, expose URL that creates an instance of that Survey, saves responses to database
+
 export const EnumMessageType = {
     SURVEY_TITLE: "SURVEY_TITLE",
     SURVEY_INSTRUCTIONS: "SURVEY_INSTRUCTIONS",
@@ -18,10 +21,14 @@ export const EnumMessageType = {
     SECTION_ADD: "SECTION_ADD",
     SECTION_REMOVE: "SECTION_REMOVE",
     SECTION_TEXT: "SECTION_TEXT",
-    
+
     PROMPT_ADD: "PROMPT_ADD",
     PROMPT_TEXT: "PROMPT_TEXT",
     PROMPT_REMOVE: "PROMPT_REMOVE",
+    
+    INPUT_ADD: "INPUT_ADD",
+    INPUT_REMOVE: "INPUT_REMOVE",
+    INPUT_MODIFY: "INPUT_MODIFY",
 };
 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.SURVEY_TITLE, (state, type, data) => {
@@ -74,10 +81,21 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.SECTION_TEXT, (state, t, 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.PROMPT_ADD, (state, t, data) => {
     const { type, section } = data;
 
-    section.prompts.push({
+    let prompt = {
         id: uuidv4(),
         type,
-    });
+    };
+
+    if(type === 2) {
+        prompt.inputs = [
+            {
+                id: 1,
+                value: null,
+                label: null,
+            },
+        ]
+    }
+    section.prompts.push(prompt);
 
     return state;
 }));
@@ -92,6 +110,31 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.PROMPT_TEXT, (state, t, d
     const { text, prompt } = data;
 
     prompt.text = text;
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.INPUT_ADD, (state, type, data) => {
+    const { prompt } = data;
+
+    prompt.inputs.push({
+        id: prompt.inputs.length + 1,
+        value: null,
+        label: null,
+    });
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.INPUT_REMOVE, (state, type, data) => {
+    const { prompt, input } = data;
+
+    prompt.inputs = prompt.inputs.filter(i => i.id !== input.id);
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.INPUT_MODIFY, (state, type, data) => {
+    const { input, field, value } = data;
+
+    input[ field ] = value;
 
     return state;
 }));

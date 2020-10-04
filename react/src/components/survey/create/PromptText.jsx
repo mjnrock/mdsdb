@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Menu, Button, Icon, Label, Tab, Table, Input } from "semantic-ui-react";
+import { Segment, Menu, Button, Icon } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
+
 import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "../../../App";
 import { EnumMessageType } from "../../../state/state";
@@ -10,7 +11,7 @@ import MarkdownEditor from "./MarkdownEditor";
 
 export default function PromptText(props = {}) {
     const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState("");
+    const [ text, setText ] = useState(props.prompt.text);
     const [ isVisible, setIsVisible ] = useState(true);
 
     useEffect(() => {

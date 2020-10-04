@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Menu, Button, Icon, Label, Tab, Table, Input } from "semantic-ui-react";
+import { Segment, Menu, Button, Icon, Table, Input } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
+
 import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "../../../App";
 import { EnumMessageType } from "../../../state/state";
@@ -10,83 +11,9 @@ import MarkdownEditor from "./MarkdownEditor";
 
 export default function PromptSelection(props = {}) {
     const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState("");
+    const [ text, setText ] = useState(props.prompt.text);
     const [ isVisible, setIsVisible ] = useState(true);
-
-    // const panes = [
-    //     {
-    //         menuItem: { key: "text", icon: "font" },
-    //         render: () => <Tab.Pane>
-    //             <Table basic="very" color="black" textAlign="center" verticalAlign="middle">
-    //                 <Table.Header>
-    //                     <Table.Row>
-    //                         <Table.HeaderCell>ID</Table.HeaderCell>
-    //                         <Table.HeaderCell>Value</Table.HeaderCell>
-    //                         <Table.HeaderCell>Label</Table.HeaderCell>
-    //                         <Table.HeaderCell>                                
-    //                             <Icon name="cogs" />
-    //                         </Table.HeaderCell>
-    //                     </Table.Row>
-    //                 </Table.Header>
-
-    //                 <Table.Body>
-    //                     <Table.Row>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ 1 } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ true } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ "Yes" } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Icon name="trash alternate outline" color="red" />
-    //                         </Table.Cell>
-    //                     </Table.Row>
-                        
-    //                     <Table.Row>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ 2 } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ false } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Input type="text" fluid value={ "No" } />
-    //                         </Table.Cell>
-    //                         <Table.Cell>
-    //                             <Icon name="trash alternate outline" color="red" />
-    //                         </Table.Cell>
-    //                     </Table.Row>
-    //                 </Table.Body>
-
-    //                 <Table.Footer fullWidth>
-    //                     <Table.Row textAlign="left">
-    //                         <Table.HeaderCell colSpan="4">
-    //                             <Button basic labelPosition="left">
-    //                                 <Icon name="plus" color="blue" />
-    //                                 Add Row
-    //                             </Button>
-    //                         </Table.HeaderCell>
-    //                     </Table.Row>
-    //                 </Table.Footer>
-    //             </Table>
-    //         </Tab.Pane>,
-    //     },
-    //     {
-    //         menuItem: { key: "database", icon: "database" },
-    //         render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>,
-    //     },
-    //     {
-    //         menuItem: { key: "api", icon: "world" },
-    //         render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>,
-    //     },
-    //     {
-    //         menuItem: { key: "dictionary", icon: "book" },
-    //         render: () => <Tab.Pane>Tab 2 Content</Tab.Pane>,
-    //     },
-    // ];
+    const inputs = props.prompt.inputs;
 
     useEffect(() => {
         node.next(EnumMessageType.PROMPT_TEXT, {
@@ -99,6 +26,24 @@ export default function PromptSelection(props = {}) {
         node.next(EnumMessageType.PROMPT_REMOVE, {
             section: props.section,
             prompt: props.prompt,
+        });
+    }
+    function removeInput(input) {
+        node.next(EnumMessageType.INPUT_REMOVE, {
+            prompt: props.prompt,
+            input,
+        });
+    }
+    function addInput() {
+        node.next(EnumMessageType.INPUT_ADD, {
+            prompt: props.prompt,
+        });
+    }
+    function modifyInput(input, field, value) {
+        node.next(EnumMessageType.INPUT_MODIFY, {
+            input,
+            field,
+            value,
         });
     }
 
@@ -134,7 +79,6 @@ export default function PromptSelection(props = {}) {
                 )
             }
 
-            {/* <Tab panes={ panes } style={{ marginTop: 10 }} /> */}
             <Table basic="very" color="black" textAlign="center" verticalAlign="middle">
                 <Table.Header>
                     <Table.Row>
@@ -148,43 +92,32 @@ export default function PromptSelection(props = {}) {
                 </Table.Header>
 
                 <Table.Body>
-                    <Table.Row>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ 1 } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ true } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ "Yes" } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Icon name="bars" />
-                            <Icon name="trash alternate outline" color="red" />
-                        </Table.Cell>
-                    </Table.Row>
-                    
-                    <Table.Row>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ 2 } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ false } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Input type="text" fluid value={ "No" } />
-                        </Table.Cell>
-                        <Table.Cell>
-                            <Icon name="bars" />
-                            <Icon name="trash alternate outline" color="red" />
-                        </Table.Cell>
-                    </Table.Row>
+                    {
+                        inputs.map(input => {
+                            return (
+                                <Table.Row key={ input.id }>
+                                    <Table.Cell width={ 2 }>
+                                        <Input type="text" fluid value={ input.id } />
+                                    </Table.Cell>
+                                    <Table.Cell width={ 6 }>
+                                        <Input type="text" fluid onChange={ e => modifyInput(input, "value", e.target.value) } value={ input.value !== void 0 && input.value !== null ? input.value : "" } />
+                                    </Table.Cell>
+                                    <Table.Cell width={ 6 }>
+                                        <Input type="text" fluid onChange={ e => modifyInput(input, "label", e.target.value) } value={ input.label !== void 0 && input.label !== null ? input.label : "" } />
+                                    </Table.Cell>
+                                    <Table.Cell width={ 2 }>
+                                        <Icon name="trash alternate outline" color="red" onClick={ e => removeInput(input) } style={{ cursor: "pointer" }} />
+                                    </Table.Cell>
+                                </Table.Row>
+                            )
+                        })
+                    }
                 </Table.Body>
 
                 <Table.Footer fullWidth>
                     <Table.Row textAlign="left">
                         <Table.HeaderCell colSpan="4">
-                            <Button basic labelPosition="left">
+                            <Button basic labelPosition="left" onClick={ addInput } >
                                 <Icon name="plus" color="purple" />
                                 Add Row
                             </Button>
