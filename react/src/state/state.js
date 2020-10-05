@@ -89,7 +89,7 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.PROMPT_ADD, (state, t, da
     if(type === 2) {
         prompt.inputs = [
             {
-                id: 1,
+                id: Date.now(),
                 value: null,
                 label: null,
             },
@@ -117,7 +117,7 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.INPUT_ADD, (state, type, 
     const { prompt } = data;
 
     prompt.inputs.push({
-        id: prompt.inputs.length + 1,
+        id: Date.now(),
         value: null,
         label: null,
     });
