@@ -115,7 +115,9 @@ export default function Form(props = {}) {
                     isVisible ? (
                         <MarkdownEditor onUpdate={ setInstructions } placeholder="[ Form Instructions ]" value={ instructions } style={ { marginTop: 8 } } />
                     ) : (
-                        <MarkdownViewer source={ instructions } />
+                        <Segment basic>
+                            <MarkdownViewer source={ instructions } />
+                        </Segment>
                     )
                 }
 

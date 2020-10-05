@@ -119,7 +119,9 @@ export default function Survey(props = {}) {
                     isVisible ? (
                         <MarkdownEditor onUpdate={ setInstructions } placeholder="[ Survey Instructions ]" value={ instructions } style={ { marginTop: 8 } } />
                     ) : (
-                        <MarkdownViewer source={ instructions } />
+                        <Segment basic>
+                            <MarkdownViewer source={ instructions } />
+                        </Segment>
                     )
                 }
 
