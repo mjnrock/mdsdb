@@ -9,6 +9,12 @@ export default function Survey(props = {}) {
     const data = props.data;
     const sections = data.sections || [];
 
+    function onResponse(prompt, value) {
+        if(typeof props.onResponse === "function") {
+            props.onResponse(prompt.id, value);
+        }
+    }
+
     return (
         <Segment>
             <Header as="h1" textAlign="center">{ data.title }</Header>
@@ -22,7 +28,7 @@ export default function Survey(props = {}) {
             
             {
                 sections.map(section => (
-                    <Section key={ section.id } section={ section } />
+                    <Section key={ section.id } section={ section } onResponse={ onResponse } />
                 ))
             }
         </Segment>
