@@ -41,14 +41,6 @@ export default function Survey(props = {}) {
 
     return (
         <>
-            {/* <Segment color="red" secondary>
-                <pre>
-                    {
-                        JSON.stringify(state, null, 2)
-                    }
-                </pre>
-            </Segment> */}
-
             <Segment color="black" style={ { paddingTop: 0 } }>
                 <Menu style={ { marginTop: 8, marginBottom: 20 } } >
                     <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Survey</Menu.Item>
@@ -125,6 +117,14 @@ export default function Survey(props = {}) {
                         <Section key={ section.id } section={ section } />
                     ))
                 }
+            </Segment>
+            
+            <Segment color="red" secondary>
+                <pre>
+                    {
+                        JSON.stringify(state, null, 2)
+                    }
+                </pre>
             </Segment>
         </>
     );
