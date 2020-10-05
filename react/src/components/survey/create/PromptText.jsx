@@ -38,7 +38,7 @@ export default function PromptText(props = {}) {
                 <Menu.Menu position="right">
                     <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
                         <Button basic labelPosition="left">
-                            <Icon name={ isVisible ? "unhide" : "pencil" } />
+                            <Icon name={ isVisible ? "caret down" : "caret up" } />
                             { isVisible ? "Hide Editor" : "Show Editor" }
                         </Button>
                     </Menu.Item>
