@@ -14,7 +14,7 @@ export default function Section(props = {}) {
 
     let inputs = null;
     if(prompt.type === 1) {
-        inputs = <TextArea />
+        inputs = <TextArea fluid />
     } else if(prompt.type === 2) {
         inputs = (
             <div style={{ display: "flex" }}>

@@ -19,6 +19,7 @@ export default function MarkdownEditor({ onUpdate, options = {}, placeholder, ..
                 hideIcons: [ "fullscreen", "side-by-side" ],
                 placeholder,
                 status: false,
+                // minHeight: "60px",
                 ...options
             }}
             { ...rest }
