@@ -15,6 +15,8 @@ const StateNode = new Node({
 //! TODO Create a Survey renderer that consumes a Survey state -- upon designing Survey, save to DB, expose URL that creates an instance of that Survey, saves responses to database
 
 export const EnumMessageType = {
+    SAVE_SURVEY: "SAVE_SURVEY",
+
     SURVEY_TITLE: "SURVEY_TITLE",
     SURVEY_INSTRUCTIONS: "SURVEY_INSTRUCTIONS",
 
@@ -30,6 +32,19 @@ export const EnumMessageType = {
     INPUT_REMOVE: "INPUT_REMOVE",
     INPUT_MODIFY: "INPUT_MODIFY",
 };
+
+StateNode.addEffect((state, oldState, type) => {
+    if(type === EnumMessageType.SAVE_SURVEY) {
+        fetch("http://localhost:3001/survey/upsert", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(state),
+        });
+    }
+});
 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.SURVEY_TITLE, (state, type, data) => {
     const { title } = data;

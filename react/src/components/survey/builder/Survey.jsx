@@ -39,6 +39,10 @@ export default function Survey(props = {}) {
         });
     }
 
+    function saveSurvey() {
+        node.next(EnumMessageType.SAVE_SURVEY);
+    }
+
     return (
         <>
             <Segment color="black" style={ { paddingTop: 0 } }>
@@ -77,7 +81,7 @@ export default function Survey(props = {}) {
                             </Button>
                         </Menu.Item>
 
-                        <Menu.Item onClick={ console.log }>
+                        <Menu.Item onClick={ saveSurvey }>
                             <Button basic labelPosition="left">
                                 <Icon name="save outline" color="grey" />
                                 Save
