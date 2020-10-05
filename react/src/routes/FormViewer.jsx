@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Dimmer, Loader } from "semantic-ui-react";
+import { Segment, Dimmer, Loader, Modal, Button, Icon } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 
 import Form from "./../components/form/viewer/Form";
@@ -10,6 +10,7 @@ export default function FormViewer(props) {
     const { formId } = useParams();
     const [ data, setData ] = useState();
     const [ responses, setResponses ] = useState({});
+    const [ open, setOpen ] = React.useState(false);
 
     useEffect(() => {
         fetch(`http://localhost:3001/form/${ formId }`)
@@ -36,10 +37,25 @@ export default function FormViewer(props) {
     }
 
     return (
-        <Segment>            
-            <Form data={ data } onResponse={ respond } />
+        <Segment>
+            <Modal
+                closeIcon
+                onClose={ () => setOpen(false) }
+                onOpen={ () => setOpen(true) }
+                open={ open }
+                trigger={(
+                    <Button labelPosition="left" style={{ marginBottom: 12 }}>
+                        <Icon name="qrcode" />
+                        View QR Code
+                    </Button>
+                )}
+            >
+                <Segment basic>
+                    <QRCode />
+                </Segment>
+            </Modal>
 
-            <QRCode />
+            <Form data={ data } onResponse={ respond } />
         </Segment>
     )
 }

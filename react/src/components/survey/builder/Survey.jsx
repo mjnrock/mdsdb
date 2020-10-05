@@ -17,7 +17,7 @@ export default function Survey(props = {}) {
     const [ title, setTitle ] = useState(state.title);
     const [ instructions, setInstructions ] = useState(state.instructions);
     const [ isVisible, setIsVisible ] = useState(true);
-    const [ open, setOpen ] = React.useState(false)
+    const [ open, setOpen ] = React.useState(false);
     const sections = state.sections || [];
 
     useEffect(() => {

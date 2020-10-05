@@ -19,6 +19,7 @@ export const EnumValidator = {
     NUMBER: input => true,
     NUMBER_INTEGER: input => true,
     NUMBER_DECIMAL: input => true,
+    NUMBER_PERCENT: input => true,
     NUMBER_CURRENCY: input => true,
     
     DATE: input => true,
@@ -159,8 +160,18 @@ export default function Section(props = {}) {
 
                         <Dropdown.Divider />
                         
-                        <Dropdown.Item onClick={ e => addEntry(null, "number:integer", EnumValidator.NUMBER_INTEGER) }>Integer</Dropdown.Item>
-                        <Dropdown.Item onClick={ e => addEntry(null, "number:decimal", EnumValidator.NUMBER_DECIMAL) }>Decimal</Dropdown.Item>
+                        <Dropdown.Item onClick={ e => addEntry(null, "number:integer", EnumValidator.NUMBER_INTEGER) }>
+                            <Icon name="sort numeric down" />
+                            Integer
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={ e => addEntry(null, "number:decimal", EnumValidator.NUMBER_DECIMAL) }>
+                            <Icon name="calculator" />
+                            Decimal
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={ e => addEntry(null, "number:percent", EnumValidator.NUMBER_PERCENT) }>
+                            <Icon name="percent" />
+                            Percent
+                        </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "number:currency", EnumValidator.NUMBER_CURRENCY) }>
                             <Icon name="dollar"/>
                             Currency
