@@ -5,9 +5,9 @@ import MarkdownViewer from "react-markdown";
 
 import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "../../../App";
-import { EnumMessageType } from "../../../state/state";
+import { EnumMessageType } from "../../../state/SurveyState";
 
-import MarkdownEditor from "./MarkdownEditor";
+import MarkdownEditor from "../../MarkdownEditor";
 
 export default function PromptSelection(props = {}) {
     const { node } = useNodeContext(Context);
@@ -58,7 +58,7 @@ export default function PromptSelection(props = {}) {
                     <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
                         <Button basic labelPosition="left">
                             <Icon name={ isVisible ? "caret down" : "caret up" } />
-                            { isVisible ? "Hide Editor" : "Show Editor" }
+                            { isVisible ? "Collapse" : "Expand" }
                         </Button>
                     </Menu.Item>
 

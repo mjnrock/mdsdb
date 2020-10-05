@@ -3,15 +3,15 @@ import React, { useState, useEffect } from "react";
 import { Segment, Icon, Menu, Button } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-import { useNodeContext } from "./../../../lib/ReactContext";
-import { Context } from "./../../../App";
-import { EnumMessageType } from "./../../../state/SurveyState";
+import { useNodeContext } from "../../../lib/ReactContext";
+import { Context } from "../../../App";
+import { EnumMessageType } from "../../../state/SurveyState";
 
-import MarkdownEditor from "./../../MarkdownEditor";
+import MarkdownEditor from "./MarkdownEditor";
 import PromptText from "./PromptText";
 import PromptSelection from "./PromptSelection";
 
-export default function Section(props = {}) {
+export default function Component(props = {}) {
     const { node } = useNodeContext(Context);
     const [ text, setText ] = useState(props.section.text);
     const [ isVisible, setIsVisible ] = useState(true);
