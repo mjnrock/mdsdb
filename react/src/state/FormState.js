@@ -18,6 +18,10 @@ export const EnumMessageType = {
     SECTION_ADD: "SECTION_ADD",
     SECTION_REMOVE: "SECTION_REMOVE",
     SECTION_TEXT: "SECTION_TEXT",
+
+    ENTRY_ADD: "ENTRY_ADD",
+    ENTRY_REMOVE: "ENTRY_REMOVE",
+    ENTRY_MODIFY: "ENTRY_MODIFY",
 };
 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.FORM_TITLE, (state, type, data) => {
@@ -46,6 +50,7 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.SECTION_ADD, (state, type
             {
                 id: uuidv4(),
                 text,
+                entries: [],
             },
         ],
     };
@@ -63,6 +68,33 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.SECTION_TEXT, (state, t, 
     const { text, section } = data;
 
     section.text = text;
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_ADD, (state, type, data) => {
+    const { section, type: entryType, label, validator } = data;
+
+    section.entries.push({
+        id: uuidv4(),
+        type: entryType,
+        label: label,
+        validator: validator,
+    });
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_REMOVE, (state, type, data) => {
+    const { section, entry } = data;
+
+    section.entries = section.entries.filter(e => e.id !== entry.id);
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_MODIFY, (state, t, data) => {
+    const { section, entry, newEntry } = data;
+
+    const index = section.entries.indexOf(entry);
+    section.entries.splice(index, 1, newEntry);
 
     return state;
 }));

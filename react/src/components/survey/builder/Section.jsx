@@ -15,7 +15,7 @@ export default function Section(props = {}) {
     const { node } = useNodeContext(Context);
     const [ text, setText ] = useState(props.section.text);
     const [ isVisible, setIsVisible ] = useState(true);
-    const prompts = props.section.prompts;
+    const prompts = props.section.prompts || [];
 
     useEffect(() => {
         if(props.section.text && props.section.text.length) {

@@ -79,7 +79,7 @@ export default function PromptSelection(props = {}) {
                 )
             }
 
-            <Table basic="very" color="black" textAlign="center" verticalAlign="middle">
+            <Table textAlign="center" verticalAlign="middle">
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>ID</Table.HeaderCell>
@@ -117,7 +117,7 @@ export default function PromptSelection(props = {}) {
                 <Table.Footer fullWidth>
                     <Table.Row textAlign="left">
                         <Table.HeaderCell colSpan="4">
-                            <Button basic labelPosition="left" onClick={ addInput } >
+                            <Button basic labelPosition="left" onClick={ addInput } style={{ marginLeft: 20, marginTop: 4 }}>
                                 <Icon name="plus" color="purple" />
                                 Add Row
                             </Button>

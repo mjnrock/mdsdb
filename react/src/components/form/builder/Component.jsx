@@ -4,8 +4,8 @@ import { Segment, Icon, Menu, Button } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
 import { useNodeContext } from "../../../lib/ReactContext";
-import { Context } from "../../../App";
-import { EnumMessageType } from "../../../state/SurveyState";
+import { Context } from "./../../../routes/FormBuilder";
+import { EnumMessageType } from "../../../state/FormState";
 
 import MarkdownEditor from "./MarkdownEditor";
 import PromptText from "./PromptText";
