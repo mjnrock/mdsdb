@@ -7,8 +7,8 @@ import Survey from "../components/survey/viewer/Survey";
 
 export default function SurveyViewer(props) {
     const { surveyId } = useParams();
-
     const [ data, setData ] = useState();
+    const [ responses, setResponses ] = useState({});
 
     useEffect(() => {
         fetch(`http://localhost:3001/survey/${ surveyId }`)
@@ -18,6 +18,13 @@ export default function SurveyViewer(props) {
             })
             .catch(console.log)
     }, []);
+
+    function respond(eid, value) {
+        setResponses({
+            ...responses,
+            [ eid ]: value,
+        });
+    }
 
     if(!data) {
         return (
@@ -29,7 +36,7 @@ export default function SurveyViewer(props) {
 
     return (
         <Segment>
-            <Survey data={ data } onResponse={ console.log } />
+            <Survey data={ data } onResponse={ respond } />
         </Segment>
     )
 }
