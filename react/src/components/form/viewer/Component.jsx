@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import { Segment, Input } from "semantic-ui-react";
+import { Container, Input } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
 export default function Component(props = {}) {
@@ -20,13 +20,13 @@ export default function Component(props = {}) {
     }
 
     return (
-        <Segment basic style={{ marginTop: "2em" }}>
+        <Container style={{ marginBottom: "1em" }}>
             <MarkdownViewer source={ entry.text } />
 
             <div style={{ display: "flex "}}>                
                 <label style={{ fontWeight: "bold", margin: "auto", marginRight: 16 }}>{ entry.label }</label>
                 { input }
             </div>
-        </Segment>
+        </Container>
     );
 }
