@@ -35,6 +35,10 @@ export default function Form(props = {}) {
         });
     }
 
+    function saveForm() {
+        node.next(EnumMessageType.SAVE_FORM);
+    }
+
     return (
         <>
             <Segment color="black" style={ { paddingTop: 0 } }>
@@ -73,7 +77,7 @@ export default function Form(props = {}) {
                             </Button>
                         </Menu.Item>
 
-                        <Menu.Item onClick={ console.log }>
+                        <Menu.Item onClick={ saveForm }>
                             <Button basic labelPosition="left">
                                 <Icon name="save outline" color="grey" />
                                 Save

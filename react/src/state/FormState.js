@@ -12,6 +12,8 @@ const StateNode = new Node({
 });
 
 export const EnumMessageType = {
+    SAVE_FORM: "SAVE_FORM",
+
     FORM_TITLE: "FORM_TITLE",
     FORM_INSTRUCTIONS: "FORM_INSTRUCTIONS",
 
@@ -23,6 +25,19 @@ export const EnumMessageType = {
     ENTRY_REMOVE: "ENTRY_REMOVE",
     ENTRY_MODIFY: "ENTRY_MODIFY",
 };
+
+StateNode.addEffect((state, oldState, type) => {
+    if(type === EnumMessageType.SAVE_FORM) {
+        fetch("http://localhost:3001/form/upsert", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(state),
+        });
+    }
+});
 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.FORM_TITLE, (state, type, data) => {
     const { title } = data;

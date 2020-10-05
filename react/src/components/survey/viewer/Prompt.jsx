@@ -3,7 +3,7 @@ import React from "react";
 import { Segment, Button, TextArea} from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-export default function Section(props = {}) {
+export default function Promp(props = {}) {
     const prompt = props.prompt;
 
     function onResponse(prompt, value) {
