@@ -88,6 +88,13 @@ export default function Survey(props = {}) {
                             </Button>
                         </Menu.Item>
 
+                        <Menu.Item onClick={ console.log }>
+                            <Button basic labelPosition="left">
+                                <Icon name="download" color="grey" />
+                                Load
+                            </Button>
+                        </Menu.Item>
+
                         <Menu.Item onClick={ console.log }>{/* TODO Add a confirmation box upon clicking this */ }
                             <Button basic labelPosition="left">
                                 <Icon name="sign-out" color="grey" />
