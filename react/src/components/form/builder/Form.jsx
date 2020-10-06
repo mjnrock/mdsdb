@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Input, Menu, Icon, Button } from "semantic-ui-react";
+import { Segment, Input, Menu, Icon, Button, Modal } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
 import { useNodeContext } from "../../../lib/ReactContext";
@@ -9,12 +9,14 @@ import { EnumMessageType } from "../../../state/FormState";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";
+import FormViewer from "./../viewer/Form";
 
 export default function Form(props = {}) {
     const { node, state } = useNodeContext(Context);
     const [ title, setTitle ] = useState(state.title);
     const [ instructions, setInstructions ] = useState(state.instructions);
     const [ isVisible, setIsVisible ] = useState(true);
+    const [ open, setOpen ] = React.useState(false);
     const sections = state.sections || [];
 
     useEffect(() => {
@@ -61,7 +63,8 @@ export default function Form(props = {}) {
                     </Menu.Item>
 
                     <Menu.Menu position="right">
-                        {/* <Modal
+                        <Modal
+                            closeIcon
                             onClose={ () => setOpen(false) }
                             onOpen={ () => setOpen(true) }
                             open={ open }
@@ -74,8 +77,8 @@ export default function Form(props = {}) {
                                 </Menu.Item>
                             )}
                         >
-                            <SurveyViewer data={ state } />
-                        </Modal> */}
+                            <FormViewer data={ state } />
+                        </Modal>
 
                         <Menu.Item onClick={ saveForm }>
                             <Button basic labelPosition="left">
