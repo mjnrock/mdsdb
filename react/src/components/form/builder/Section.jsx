@@ -25,6 +25,9 @@ export const EnumValidator = {
     DATE: input => true,
     TIME: input => true,
     DATETIME: input => true,
+
+    COLOR: input => true,
+    FILE: input => true,
 };
 
 export default function Section(props = {}) {
@@ -46,12 +49,13 @@ export default function Section(props = {}) {
         });
     }, [ text ]);
 
-    function addEntry(label, type, validator) {
+    function addEntry(label, type, validator, order) {
         node.next(EnumMessageType.ENTRY_ADD, {
             section: props.section,
             label,
             type,
             validator,
+            order: Math.max(props.section.entries.length, props.section.entries.reduce((a, entry) => Math.max(a, (entry.order || 0)), 0)),
         });
     }
     function removeSection() {
@@ -81,15 +85,15 @@ export default function Section(props = {}) {
             <Menu size="small" style={{ marginTop: 8, marginBottom: 16 }} >
                 <Menu.Item header style={{ color: "rgb(118, 118, 118)" }}>Section</Menu.Item>
                 <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ props.section.id }</Menu.Item>
+                
+                <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
+                    <Button basic labelPosition="left">
+                        <Icon name={ isVisible ? "caret down" : "caret up" } />
+                        { isVisible ? "Collapse" : "Expand" }
+                    </Button>
+                </Menu.Item>
 
-                <Menu.Menu position="right">
-                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
-                        <Button basic labelPosition="left">
-                            <Icon name={ isVisible ? "caret down" : "caret up" } />
-                            { isVisible ? "Collapse" : "Expand" }
-                        </Button>
-                    </Menu.Item>
-                    
+                <Menu.Menu position="right">                    
                     <Menu.Item onClick={ removeSection }>
                         <Button basic labelPosition="left">
                             <Icon name="trash alternate outline" color="red" />
@@ -118,29 +122,29 @@ export default function Section(props = {}) {
                 )}>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={ e => addEntry(null, "text", EnumValidator.TEXT) }>
-                            <Icon name="font"/>
+                            <Icon name="font" color="red" />
                             Generic
                         </Dropdown.Item>
 
                         <Dropdown.Divider />
 
                         <Dropdown.Item onClick={ e => addEntry(null, "text:phone", EnumValidator.TEXT_PHONE) }>
-                            <Icon name="call"/>
+                            <Icon name="call" color="red" />
                             Phone
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "text:email", EnumValidator.TEXT_EMAIL) }>
-                            <Icon name="mail outline"/>
+                            <Icon name="mail outline" color="red" />
                             Email
                         </Dropdown.Item>
 
                         <Dropdown.Divider />
 
                         <Dropdown.Item onClick={ e => addEntry(null, "text:multi", EnumValidator.TEXT_MULTI) }>
-                            <Icon name="text cursor"/>
+                            <Icon name="text cursor" color="red" />
                             Textarea
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "text:markdown", EnumValidator.TEXT_MARKDOWN) }>
-                            <Icon name="heading"/>
+                            <Icon name="heading" color="red" />
                             Markdown
                         </Dropdown.Item>
                     </Dropdown.Menu>
@@ -154,26 +158,26 @@ export default function Section(props = {}) {
                 )}>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={ e => addEntry(null, "number", EnumValidator.NUMBER) }>
-                            <Icon name="hashtag"/>
+                            <Icon name="hashtag" color="blue" />
                             Generic
                         </Dropdown.Item>
 
                         <Dropdown.Divider />
                         
                         <Dropdown.Item onClick={ e => addEntry(null, "number:integer", EnumValidator.NUMBER_INTEGER) }>
-                            <Icon name="sort numeric down" />
+                            <Icon name="sort numeric down" color="blue"  />
                             Integer
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "number:decimal", EnumValidator.NUMBER_DECIMAL) }>
-                            <Icon name="calculator" />
+                            <Icon name="calculator" color="blue"  />
                             Decimal
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "number:percent", EnumValidator.NUMBER_PERCENT) }>
-                            <Icon name="percent" />
+                            <Icon name="percent" color="blue"  />
                             Percent
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "number:currency", EnumValidator.NUMBER_CURRENCY) }>
-                            <Icon name="dollar"/>
+                            <Icon name="dollar" color="blue" />
                             Currency
                         </Dropdown.Item>
                     </Dropdown.Menu>
@@ -187,16 +191,34 @@ export default function Section(props = {}) {
                 )}>
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={ e => addEntry(null, "date", EnumValidator.DATE) }>
-                            <Icon name="calendar alternate outline"/>
+                            <Icon name="calendar alternate outline" color="orange" />
                             Date
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "time", EnumValidator.TIME) }>
-                            <Icon name="clock outline"/>
+                            <Icon name="clock outline" color="orange" />
                             Time
                         </Dropdown.Item>
                         <Dropdown.Item onClick={ e => addEntry(null, "datetime", EnumValidator.DATETIME) }>
-                            <Icon name="hourglass outline"/>
+                            <Icon name="hourglass outline" color="orange" />
                             DateTime
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
+                
+                <Dropdown item text={( 
+                    <div>
+                        <Icon name="ellipsis horizontal" color="purple" />
+                        Miscellaneous
+                    </div>
+                )}>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={ e => addEntry(null, "color", EnumValidator.COLOR) }>
+                            <Icon name="tint" color="purple" />
+                            Color
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={ e => addEntry(null, "file", EnumValidator.FILE) }>
+                            <Icon name="file alternate outline" color="purple" />
+                            File
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>

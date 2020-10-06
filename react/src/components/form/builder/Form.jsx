@@ -53,6 +53,13 @@ export default function Form(props = {}) {
                         </Icon.Group>
                     </Menu.Item>
 
+                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
+                        <Button basic labelPosition="left">
+                            <Icon name={ isVisible ? "caret down" : "caret up" } />
+                            { isVisible ? "Collapse" : "Expand" }
+                        </Button>
+                    </Menu.Item>
+
                     <Menu.Menu position="right">
                         {/* <Modal
                             onClose={ () => setOpen(false) }
@@ -69,13 +76,6 @@ export default function Form(props = {}) {
                         >
                             <SurveyViewer data={ state } />
                         </Modal> */}
-
-                        <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
-                            <Button basic labelPosition="left">
-                                <Icon name={ isVisible ? "caret down" : "caret up" } />
-                                { isVisible ? "Collapse" : "Expand" }
-                            </Button>
-                        </Menu.Item>
 
                         <Menu.Item onClick={ saveForm }>
                             <Button basic labelPosition="left">

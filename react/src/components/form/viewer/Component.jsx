@@ -18,6 +18,10 @@ export default function Component(props = {}) {
         input = <TextArea fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type === "text:markdown") {
         input = <MarkdownEditor onUpdate={ text => onResponse(entry, text) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === "text:email") {
+        input = <Input type="email" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === "text:phone") {
+        input = <Input type="tel" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type.match(/text.*/i)) {
         input = <Input type="text" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type.match(/number.*/i)) {
@@ -28,6 +32,10 @@ export default function Component(props = {}) {
         input = <Input type="time" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type === "datetime") {
         input = <Input type="datetime-local" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === "color") {
+        input = <Input type="color" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === "file") {
+        input = <Input type="file" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     }
 
     return (

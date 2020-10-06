@@ -82,13 +82,14 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.SECTION_TEXT, (state, t, 
     return state;
 }));
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_ADD, (state, type, data) => {
-    const { section, type: entryType, label, validator } = data;
+    const { section, type: entryType, label, validator, order } = data;
 
     section.entries.push({
         id: uuidv4(),
         type: entryType,
         label: label,
         validator: validator,
+        order: order,
     });
 
     return state;

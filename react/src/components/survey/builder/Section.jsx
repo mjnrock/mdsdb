@@ -84,15 +84,15 @@ export default function Section(props = {}) {
                         <Icon corner="bottom right" name="add" color="blue" />
                     </Icon.Group>
                 </Menu.Item> */}
+                
+                <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
+                    <Button basic labelPosition="left">
+                        <Icon name={ isVisible ? "caret down" : "caret up" } />
+                        { isVisible ? "Collapse" : "Expand" }
+                    </Button>
+                </Menu.Item>
 
-                <Menu.Menu position="right">
-                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
-                        <Button basic labelPosition="left">
-                            <Icon name={ isVisible ? "caret down" : "caret up" } />
-                            { isVisible ? "Collapse" : "Expand" }
-                        </Button>
-                    </Menu.Item>
-                    
+                <Menu.Menu position="right">                    
                     <Menu.Item onClick={ removeSection }>
                         <Button basic labelPosition="left">
                             <Icon name="trash alternate outline" color="red" />
