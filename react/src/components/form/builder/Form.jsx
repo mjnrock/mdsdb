@@ -69,7 +69,7 @@ export default function Form(props = {}) {
                             onOpen={ () => setOpen(true) }
                             open={ open }
                             trigger={(
-                                <Menu.Item onClick={ console.log }>
+                                <Menu.Item onClick={ () => {} }>
                                     <Button basic labelPosition="left">
                                         <Icon name="unhide" color="grey" />
                                         Preview
