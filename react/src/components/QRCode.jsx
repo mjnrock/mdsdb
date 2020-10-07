@@ -9,7 +9,7 @@ export default function QRCode(props) {
             <Header as="h3" style={{ fontStyle: "italic" }}>
                 Scan with your camera app to use your phone as a controller
             </Header>
-            <ReactQRCode value={ `https://192.168.86.26:3000/form/d97caca4-6a64-4d68-83f0-cde06134587a` } />
+            <ReactQRCode value={ `https://192.168.86.100:3000/form/d97caca4-6a64-4d68-83f0-cde06134587a` } />
         </Segment>
     );
 }

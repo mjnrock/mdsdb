@@ -21,6 +21,9 @@ function App() {
             <ScrollToTop>
                 <Context.Provider value={ { node: StateNode } }>
                     <Switch>
+                        <Route path="/dictionary">
+                            <Routes.Dictionary />
+                        </Route>
                         <Route path="/form/builder">
                             <Routes.FormBuilder />
                         </Route>
@@ -35,6 +38,7 @@ function App() {
                         </Route>
                     </Switch>
 
+                    <Link to="/dictionary">Dictionary</Link>
                     <Link to="/form/builder">Form Builder</Link>
                     <Link to="/form/d97caca4-6a64-4d68-83f0-cde06134587a">Demo Form</Link>
                     <Link to="/survey/builder">Survey Builder</Link>
