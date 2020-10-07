@@ -1,7 +1,10 @@
 /* eslint-disable */
 import { v4 as uuidv4 } from "uuid";
 import React, { useState } from "react";
-import { Segment, Input, Table, Icon, Header, Message, Button, Menu, Grid, Modal } from "semantic-ui-react";
+import { Segment, Input, Table, Icon, Header, Message, Button, Menu, Modal } from "semantic-ui-react";
+
+import Dictionary from "./Dictionary";
+
 
 export default function DictionaryCore(props) {
     const [ open, setOpen ] = React.useState(false);
@@ -19,10 +22,6 @@ export default function DictionaryCore(props) {
             name: "Yet Another",
         },
     ]);
-
-    function openDictionary(dictionary) {
-        console.log(`You clicked: ${dictionary.name} [ ${dictionary.id} ]`)
-    }
 
     return (
         <Segment>
@@ -49,7 +48,7 @@ export default function DictionaryCore(props) {
                         )}
                     >
                         <Header as="h2">
-                            <span style={{ color: "rgb(58, 192, 255)" }}>New</span> Dictionary
+                            <span style={{ color: "rgb(58, 192, 255)" }}>Create</span> Dictionary
                         </Header>
 
                         <Modal.Content>
@@ -98,13 +97,29 @@ export default function DictionaryCore(props) {
                                 style={ { fontFamily: "monospace", fontSize: "0.75em" } }
                                 onClick={ console.log }
                             >{ dictionary.id }</Menu.Item>
-                            <Menu.Item
-                                style={ { flexGrow: 1 } }
-                                onClick={ e => openDictionary(dictionary) }
-                            >{ dictionary.name }</Menu.Item>
-                            <Menu.Item onClick={ console.log }>
-                                <Icon name="pencil alternate" color="grey" />
-                            </Menu.Item>
+                            
+                            <Modal
+                                basic
+                                onClose={ () => setOpen(false) }
+                                onOpen={ () => setOpen(true) }
+                                open={ open }
+                                size="fullscreen"
+                                trigger={(                            
+                                    <Menu.Item
+                                        style={ { flexGrow: 1 } }
+                                        onClick={ e => {} }
+                                    >{ dictionary.name }</Menu.Item>
+                                )}
+                            >
+                                <Header as="h2">
+                                    <span style={{ color: "rgb(58, 192, 255)" }}>Explore</span> { dictionary.name }
+                                </Header>
+
+                                <Modal.Content>
+                                    <Dictionary dictionary={ dictionary } />
+                                </Modal.Content>
+                            </Modal>
+
                             <Menu.Item onClick={ console.log }>
                                 <Icon name="trash alternate outline" color="red" />
                             </Menu.Item>
