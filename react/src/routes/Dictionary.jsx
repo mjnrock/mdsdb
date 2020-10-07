@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React from "react";
-import { Segment } from "semantic-ui-react";
 
 import StateNode from "../state/DictionaryState";
 
@@ -11,10 +10,7 @@ export const Context = React.createContext(StateNode);
 export default function Dictionary(props) {
     return (
         <Context.Provider value={ { node: StateNode } }>
-            <Segment>
-
-                <DictionaryCore />
-            </Segment>
+            <DictionaryCore />
         </Context.Provider>
     );
 }
