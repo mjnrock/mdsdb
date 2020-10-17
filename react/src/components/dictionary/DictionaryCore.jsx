@@ -7,7 +7,7 @@ import Dictionary from "./Dictionary";
 
 
 export default function DictionaryCore(props) {
-    const [ open, setOpen ] = React.useState(false);
+    const [ open, setOpen ] = React.useState({ main: false });
     const [ dictionaries, setDictionaries ] = useState([
         {
             id: uuidv4(),
@@ -33,38 +33,38 @@ export default function DictionaryCore(props) {
             </Message>
 
             <Menu>
-                <Menu.Item onClick={ console.log }>
-                    <Modal
-                        basic
-                        onClose={ () => setOpen(false) }
-                        onOpen={ () => setOpen(true) }
-                        open={ open }
-                        size="small"
-                        trigger={(
+                <Modal
+                    basic
+                    onClose={ () => setOpen({ ...open, main: false }) }
+                    onOpen={ () => setOpen({ ...open, main: true }) }
+                    open={ !!open.main }
+                    size="fullscreen"
+                    trigger={(
+                        <Menu.Item>
                             <Button labelPosition="left">
                                 <Icon name="book" color="blue" />
                                 New Dictionary
                             </Button>
-                        )}
-                    >
-                        <Header as="h2">
-                            <span style={{ color: "rgb(58, 192, 255)" }}>Create</span> Dictionary
-                        </Header>
+                        </Menu.Item>
+                    )}
+                >
+                    <Header as="h2">
+                        <span style={{ color: "rgb(58, 192, 255)" }}>Create</span> Dictionary
+                    </Header>
 
-                        <Modal.Content>
-                            <Input type="text" placeholder="Name" fluid size="large" icon="book blue" iconPosition="left" />
-                        </Modal.Content>
+                    <Modal.Content>
+                        <Input type="text" placeholder="Name" fluid size="large" icon="book blue" iconPosition="left" />
+                    </Modal.Content>
 
-                        <Modal.Actions>
-                            <Button basic color="red" inverted onClick={ () => setOpen(false) }>
-                                <Icon name="remove" /> Cancel
-                            </Button>
-                                <Button color="blue" inverted onClick={ () => setOpen(false) }>
-                                    <Icon name="checkmark" /> Save
-                            </Button>
-                        </Modal.Actions>
-                    </Modal>
-                </Menu.Item>
+                    <Modal.Actions>
+                        <Button basic color="red" inverted onClick={ () => setOpen(false) }>
+                            <Icon name="remove" /> Cancel
+                        </Button>
+                            <Button color="blue" inverted onClick={ () => setOpen(false) }>
+                                <Icon name="checkmark" /> Save
+                        </Button>
+                    </Modal.Actions>
+                </Modal>
 
                 <Menu.Menu position="right">
                     <Menu.Item>
@@ -93,18 +93,18 @@ export default function DictionaryCore(props) {
                 {
                     dictionaries.map(dictionary => (
                         <Menu key={ dictionary.id } position="right" style={ { display: "flex", width: "100%" } }>
-                            <Menu.Item
+                            {/* <Menu.Item
                                 style={ { fontFamily: "monospace", fontSize: "0.75em" } }
                                 onClick={ console.log }
-                            >{ dictionary.id }</Menu.Item>
+                            >{ dictionary.id }</Menu.Item> */}
                             
                             <Modal
                                 basic
-                                onClose={ () => setOpen(false) }
-                                onOpen={ () => setOpen(true) }
-                                open={ open }
+                                onClose={ () => setOpen({ ...open, [ dictionary.id ]: false }) }
+                                onOpen={ () => setOpen({ ...open, [ dictionary.id ]: true }) }
+                                open={ !!open[ dictionary.id ] }
                                 size="fullscreen"
-                                trigger={(                            
+                                trigger={(
                                     <Menu.Item
                                         style={ { flexGrow: 1 } }
                                         onClick={ e => {} }
@@ -119,6 +119,11 @@ export default function DictionaryCore(props) {
                                     <Dictionary dictionary={ dictionary } />
                                 </Modal.Content>
                             </Modal>
+
+                            <Menu.Item
+                                style={ { flexGrow: 1 } }
+                                onClick={ e => {} }
+                            >{ dictionary.name }</Menu.Item>
 
                             <Menu.Item onClick={ console.log }>
                                 <Icon name="trash alternate outline" color="red" />
