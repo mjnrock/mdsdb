@@ -92,12 +92,7 @@ export default function DictionaryCore(props) {
 
                 {
                     dictionaries.map(dictionary => (
-                        <Menu key={ dictionary.id } position="right" style={ { display: "flex", width: "100%" } }>
-                            {/* <Menu.Item
-                                style={ { fontFamily: "monospace", fontSize: "0.75em" } }
-                                onClick={ console.log }
-                            >{ dictionary.id }</Menu.Item> */}
-                            
+                        <Menu key={ dictionary.id } position="right" style={ { display: "flex", width: "100%" } }>                            
                             <Modal
                                 basic
                                 onClose={ () => setOpen({ ...open, [ dictionary.id ]: false }) }
