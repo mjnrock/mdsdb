@@ -36,6 +36,11 @@ export default function Form(props = {}) {
             text: "",
         });
     }
+    function addQuery() {
+        // node.next(EnumMessageType.QUERY_ADD, {
+        //     text: "",
+        // });
+    }
 
     function saveForm() {
         node.next(EnumMessageType.SAVE_FORM);
@@ -47,6 +52,13 @@ export default function Form(props = {}) {
                 <Menu style={ { marginTop: 8, marginBottom: 20 } } >
                     <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Form</Menu.Item>
                     <Menu.Item header style={ { fontFamily: "monospace", fontWeight: 100, color: "#bbb" } }>{ state.id }</Menu.Item>
+
+                    <Menu.Item name="text" onClick={ e => addQuery() }>
+                        <Icon.Group size="large">
+                            <Icon name="table" color="grey" />
+                            <Icon corner="bottom right" name="add" color="grey" />
+                        </Icon.Group>
+                    </Menu.Item>
 
                     <Menu.Item name="text" onClick={ e => addSection() }>
                         <Icon.Group size="large">

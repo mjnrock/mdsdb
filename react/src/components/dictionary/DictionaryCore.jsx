@@ -121,6 +121,10 @@ export default function DictionaryCore(props) {
                             >{ dictionary.name }</Menu.Item>
 
                             <Menu.Item onClick={ console.log }>
+                                <Icon name="table" color="grey" />
+                            </Menu.Item>
+
+                            <Menu.Item onClick={ console.log }>
                                 <Icon name="trash alternate outline" color="red" />
                             </Menu.Item>
                         </Menu>
