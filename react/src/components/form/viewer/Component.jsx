@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import { Container, Input, Grid, TextArea } from "semantic-ui-react";
+import { Container, Input, Grid, TextArea, Button } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
 
@@ -36,6 +36,10 @@ export default function Component(props = {}) {
         input = <Input type="color" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type === "file") {
         input = <Input type="file" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === "label") {
+        input = <div style={{ flexGrow: 1 }}>{ entry.label }</div>
+    } else if(entry.type === "button") {
+        input = <Button fluid onClick={ e => onResponse(entry) } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     }
 
     return (
@@ -44,12 +48,24 @@ export default function Component(props = {}) {
 
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={ 2 } style={{ fontWeight: "bold", margin: "auto" }}>
-                        { entry.label }
-                    </Grid.Column>
-                    <Grid.Column width={ 14 }>
-                        { input }
-                    </Grid.Column>
+                    {
+                        [ "label", "button" ].includes(entry.type) ? (
+                            <>
+                                <Grid.Column width={ 16 } style={{ fontWeight: "bold", margin: "auto" }}>
+                                    { input }
+                                </Grid.Column>
+                            </>
+                        ) : (
+                            <>
+                                <Grid.Column width={ 2 } style={{ fontWeight: "bold", margin: "auto" }}>
+                                    { entry.label }
+                                </Grid.Column>
+                                <Grid.Column width={ 14 }>
+                                    { input }
+                                </Grid.Column>
+                            </>
+                        )
+                    }
                 </Grid.Row>
             </Grid>
         </Container>

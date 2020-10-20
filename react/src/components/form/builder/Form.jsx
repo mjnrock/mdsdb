@@ -10,13 +10,14 @@ import { EnumMessageType } from "../../../state/FormState";
 import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";
 import FormViewer from "./../viewer/Form";
+import FunctionEditor from "./FunctionEditor";
 
 export default function Form(props = {}) {
     const { node, state } = useNodeContext(Context);
-    const [ title, setTitle ] = useState(state.title);
-    const [ instructions, setInstructions ] = useState(state.instructions);
+    const [ title, setTitle ] = useState(state.title || "");
+    const [ instructions, setInstructions ] = useState(state.instructions || "");
     const [ isVisible, setIsVisible ] = useState(true);
-    const [ open, setOpen ] = React.useState(false);
+    const [ open, setOpen ] = React.useState({ main: false });
     const sections = state.sections || [];
 
     useEffect(() => {
@@ -41,6 +42,12 @@ export default function Form(props = {}) {
         //     text: "",
         // });
     }
+    function modifyFunction(name, code) {
+        node.next(EnumMessageType.FUNCTION_MODIFY, {
+            name,
+            code,
+        });
+    }
 
     function saveForm() {
         node.next(EnumMessageType.SAVE_FORM);
@@ -52,6 +59,30 @@ export default function Form(props = {}) {
                 <Menu style={ { marginTop: 8, marginBottom: 20 } } >
                     <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Form</Menu.Item>
                     <Menu.Item header style={ { fontFamily: "monospace", fontWeight: 100, color: "#bbb" } }>{ state.id }</Menu.Item>
+
+                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
+                        <Button basic labelPosition="left">
+                            <Icon name={ isVisible ? "angle down" : "angle up" } />
+                            <span>{ isVisible ? "Hide" : "Show" }<span style={{ fontWeight: "bold" }}>&nbsp;Editor</span></span>
+                        </Button>
+                    </Menu.Item>
+
+                    <Modal
+                        closeIcon
+                        onClose={ () => setOpen({ ...open, fn: false }) }
+                        onOpen={ () => setOpen({ ...open, fn: true }) }
+                        open={ open.fn }
+                        trigger={(
+                            <Menu.Item name="text" onClick={ e => {} }>
+                                <Icon.Group size="large">
+                                    <Icon name="code" color="grey" />
+                                    <Icon corner="bottom right" name="add" color="grey" />
+                                </Icon.Group>
+                            </Menu.Item>
+                        )}
+                    >
+                        <FunctionEditor functions={ state.functions } onSubmit={ modifyFunction } />
+                    </Modal>
 
                     <Menu.Item name="text" onClick={ e => addQuery() }>
                         <Icon.Group size="large">
@@ -67,19 +98,12 @@ export default function Form(props = {}) {
                         </Icon.Group>
                     </Menu.Item>
 
-                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
-                        <Button basic labelPosition="left">
-                            <Icon name={ isVisible ? "caret down" : "caret up" } />
-                            { isVisible ? "Collapse" : "Expand" }
-                        </Button>
-                    </Menu.Item>
-
                     <Menu.Menu position="right">
                         <Modal
                             closeIcon
-                            onClose={ () => setOpen(false) }
-                            onOpen={ () => setOpen(true) }
-                            open={ open }
+                            onClose={ () => setOpen({ ...open, preview: false }) }
+                            onOpen={ () => setOpen({ ...open, preview: true }) }
+                            open={ open.preview }
                             trigger={(
                                 <Menu.Item onClick={ () => {} }>
                                     <Button basic labelPosition="left">

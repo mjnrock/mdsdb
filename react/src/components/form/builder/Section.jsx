@@ -10,6 +10,8 @@ import { EnumMessageType } from "./../../../state/FormState";
 import MarkdownEditor from "./../../MarkdownEditor";
 
 export const EnumValidator = {
+    BUTTON: input => true,
+
     TEXT: input => true,
     TEXT_PHONE: input => input.length === 10,
     TEXT_EMAIL: input => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input),
@@ -26,6 +28,7 @@ export const EnumValidator = {
     TIME: input => true,
     DATETIME: input => true,
 
+    LABEL: input => true,
     COLOR: input => true,
     FILE: input => true,
 };
@@ -88,8 +91,8 @@ export default function Section(props = {}) {
                 
                 <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
                     <Button basic labelPosition="left">
-                        <Icon name={ isVisible ? "caret down" : "caret up" } />
-                        { isVisible ? "Collapse" : "Expand" }
+                        <Icon name={ isVisible ? "angle down" : "angle up" } />
+                        <span>{ isVisible ? "Hide" : "Show" }<span style={{ fontWeight: "bold" }}>&nbsp;Editor</span></span>
                     </Button>
                 </Menu.Item>
 
@@ -113,6 +116,20 @@ export default function Section(props = {}) {
             
             <Menu size="small">
                 <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Components</Menu.Item>
+
+                <Dropdown item text={( 
+                    <div>
+                        <Icon name="cogs" color="green" />
+                        Control
+                    </div>
+                )}>
+                    <Dropdown.Menu>
+                        <Dropdown.Item onClick={ e => addEntry(null, "button", EnumValidator.BUTTON) }>
+                            <Icon name="hand point up outline" color="green" />
+                            Button
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
 
                 <Dropdown item text={( 
                     <div>
@@ -212,6 +229,11 @@ export default function Section(props = {}) {
                     </div>
                 )}>
                     <Dropdown.Menu>
+                        <Dropdown.Item onClick={ e => addEntry(null, "label", EnumValidator.LABEL) }>
+                            <Icon name="bold" color="purple" />
+                            Label
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
                         <Dropdown.Item onClick={ e => addEntry(null, "color", EnumValidator.COLOR) }>
                             <Icon name="tint" color="purple" />
                             Color
@@ -247,6 +269,23 @@ export default function Section(props = {}) {
                                 <Table.Cell width={ 2 }>
                                     <Input type="text" fluid readOnly value={ entry.type || "" } />
                                 </Table.Cell>
+                                {/* {
+                                    entry.type === "button" ? (
+                                        <Table.Cell width={ 4 }>
+                                            <Dropdown fluid>
+                                                {
+                                                    Object.entries(state.functions || {}).map(([ key, value ]) => (
+                                                        <Dropdown.Item>{ key }</Dropdown.Item>
+                                                    ))
+                                                }
+                                            </Dropdown>
+                                        </Table.Cell>
+                                    ) : (
+                                        <Table.Cell width={ 4 }>
+                                            <Input type="text" fluid readOnly placeholder="[ Validator ]" value={ JSON.stringify(entry.validator) } />
+                                        </Table.Cell>
+                                    )
+                                } */}
                                 <Table.Cell width={ 4 }>
                                     <Input type="text" fluid readOnly placeholder="[ Validator ]" value={ JSON.stringify(entry.validator) } />
                                 </Table.Cell>

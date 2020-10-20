@@ -7,7 +7,16 @@ const StateNode = new Node({
         id: uuidv4(),
         title: null,
         instructions: null,
-        sections: [],
+        sections: [
+            {
+                id: uuidv4(),
+                text: null,
+                entries: [],
+            }
+        ],
+        functions: {
+            test: () => console.log(`Yes`)
+        },
     },
 });
 // const StateNode = new Node({
@@ -27,6 +36,10 @@ export const EnumMessageType = {
     ENTRY_ADD: "ENTRY_ADD",
     ENTRY_REMOVE: "ENTRY_REMOVE",
     ENTRY_MODIFY: "ENTRY_MODIFY",
+
+    FUNCTION_ADD: "FUNCTION_ADD",
+    FUNCTION_REMOVE: "FUNCTION_REMOVE",
+    FUNCTION_MODIFY: "FUNCTION_MODIFY",
 };
 
 StateNode.addEffect((state, oldState, type) => {
@@ -114,6 +127,31 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_MODIFY, (state, t, 
 
     const index = section.entries.indexOf(entry);
     section.entries.splice(index, 1, newEntry);
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_ADD, (state, type, data) => {
+    const { name,  code } = data;
+
+    if(typeof code === "function") {
+        state.functions[ name ] = code;
+    }
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_REMOVE, (state, type, data) => {
+    const { name } = data;
+
+    delete state.functions[ name ];
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_MODIFY, (state, t, data) => {
+    const { name, code } = data;
+
+    if(typeof code === "function") {
+        state.functions[ name ] = code;
+    }
 
     return state;
 }));
