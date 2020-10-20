@@ -48,13 +48,11 @@ function(controller, state, react) {
 
     return (
         <Segment>
-            <Menu size="small">
-                <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Template</Menu.Item>
-
+            <Menu size="small" style={{ marginBottom: 20 }}>
                 <Dropdown fluid item text={( 
                     <div>
                         <Icon name="cogs" color="green" />
-                        { (name in functions) ? name : "Select Function..." }
+                        { (name in functions) ? name : "Select an Existing Function..." }
                     </div>
                 )}>
                     <Dropdown.Menu>
