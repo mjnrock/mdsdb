@@ -7,13 +7,27 @@ import "codemirror/mode/javascript/javascript";
 export default function FunctionEditor(props = {}) {
     const [ current, setCurrent ] = useState("");
     const [ name, setName ] = useState("");
-    const [ code, setCode ] = useState("// Code");
+    const [ code, setCode ] = useState(
+`// Example Code
+function(controller, state, react) {
+    // Get the Entry associated where: @id = "QUESTION_ID"
+    const qid = controller.get("QUESTION_ID");
+
+    // Get the React Component internal state variable: @name
+    console.log(react.name);
+    
+    // Get the Form's @id
+    console.log(state.id);
+
+    return;
+}`
+    );
 
     const functions = props.functions || {};
 
     function save() {
         if(typeof props.onSubmit === "function") {
-            props.onSubmit(name, code);
+            props.onSubmit(name, code || code.constructor.name);
         }
     }
 
@@ -23,17 +37,9 @@ export default function FunctionEditor(props = {}) {
             setName(current);
         }
     }, [ current ]);
-    
-    useEffect(() => {
-        console.log("========================")
-        console.log(current)
-        console.log(name)
-        console.log(code)
-        console.log(functions[ current ])
-    }, [ code ])
 
     return (
-        <Segment>            
+        <Segment>
             <Menu size="small">
                 <Menu.Item header style={ { color: "rgb(118, 118, 118)" } }>Template</Menu.Item>
 
@@ -92,7 +98,7 @@ export default function FunctionEditor(props = {}) {
                 <Grid.Row style={{ marginTop: 6, paddingTop: 0 }}>
                     <Grid.Column width={ 16 } style={{ fontSize: 12 }}>
                         <div>You must include the full function definition, including arguments, body, and any pertinent scope bindings.</div>
-                        <div>All functions will receive <code>(state)</code> as the argument(s).</div>
+                        <div>All functions will receive <code>(controller, state, react)</code> as the argument(s).</div>
                     </Grid.Column>
                 </Grid.Row>
 

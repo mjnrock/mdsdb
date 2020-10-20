@@ -131,10 +131,12 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_MODIFY, (state, t, 
     return state;
 }));
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_ADD, (state, type, data) => {
-    const { name,  code } = data;
+    const { name, code } = data;
+    // eslint-disable-next-line
+    const fn = eval(`(${ code })`);
 
-    if(typeof code === "function") {
-        state.functions[ name ] = code;
+    if(typeof fn === "function") {
+        state.functions[ name ] = fn;
     }
 
     return state;
@@ -148,9 +150,11 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_REMOVE, (state, 
 }));
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_MODIFY, (state, t, data) => {
     const { name, code } = data;
+    // eslint-disable-next-line
+    const fn = eval(`(${ code })`);
 
-    if(typeof code === "function") {
-        state.functions[ name ] = code;
+    if(typeof fn === "function") {
+        state.functions[ name ] = fn;
     }
 
     return state;

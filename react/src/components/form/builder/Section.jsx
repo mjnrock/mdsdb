@@ -34,10 +34,11 @@ export const EnumValidator = {
 };
 
 export default function Section(props = {}) {
-    const { node } = useNodeContext(Context);
+    const { node, state } = useNodeContext(Context);
     const [ text, setText ] = useState(props.section.text);
     const [ isVisible, setIsVisible ] = useState(true);
     const entries = props.section.entries || [];
+    const functions = state.functions;
 
     useEffect(() => {
         if(props.section.text && props.section.text.length) {
@@ -269,15 +270,22 @@ export default function Section(props = {}) {
                                 <Table.Cell width={ 2 }>
                                     <Input type="text" fluid readOnly value={ entry.type || "" } />
                                 </Table.Cell>
-                                {/* {
+                                {
                                     entry.type === "button" ? (
                                         <Table.Cell width={ 4 }>
-                                            <Dropdown fluid>
-                                                {
-                                                    Object.entries(state.functions || {}).map(([ key, value ]) => (
-                                                        <Dropdown.Item>{ key }</Dropdown.Item>
-                                                    ))
-                                                }
+                                            <Dropdown fluid item text={( 
+                                                <div>
+                                                    <Icon name="cogs" color="green" />
+                                                    { entry.value }
+                                                </div>
+                                            )}>
+                                                <Dropdown.Menu>
+                                                    {
+                                                        Object.entries(functions || {}).map(([ key, value ]) => (
+                                                            <Dropdown.Item key={ key } onClick={ e => modifyEntry(entry, "value", key) }>{ key }</Dropdown.Item>
+                                                        ))
+                                                    }
+                                                </Dropdown.Menu>
                                             </Dropdown>
                                         </Table.Cell>
                                     ) : (
@@ -285,10 +293,7 @@ export default function Section(props = {}) {
                                             <Input type="text" fluid readOnly placeholder="[ Validator ]" value={ JSON.stringify(entry.validator) } />
                                         </Table.Cell>
                                     )
-                                } */}
-                                <Table.Cell width={ 4 }>
-                                    <Input type="text" fluid readOnly placeholder="[ Validator ]" value={ JSON.stringify(entry.validator) } />
-                                </Table.Cell>
+                                }
                                 <Table.Cell width={ 2 }>
                                     <Icon name="trash alternate outline" color="red" onClick={ e => removeEntry(entry) } style={{ cursor: "pointer" }} />
                                 </Table.Cell>

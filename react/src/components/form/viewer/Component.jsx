@@ -6,6 +6,7 @@ import MarkdownEditor from "./../../MarkdownEditor";
 
 export default function Component(props = {}) {
     const entry = props.entry;
+    const data = props.data || {};
 
     function onResponse(entry, value) {
         if(typeof props.onResponse === "function") {
@@ -39,7 +40,13 @@ export default function Component(props = {}) {
     } else if(entry.type === "label") {
         input = <div style={{ flexGrow: 1 }}>{ entry.label }</div>
     } else if(entry.type === "button") {
-        input = <Button fluid onClick={ e => onResponse(entry) } style={{ flexGrow: 1 }}>{ entry.label }</Button>
+        input = <Button fluid onClick={ e => {
+            const fn = data.functions[ entry.value ];
+
+            if(typeof fn === "function") {
+                fn(e);
+            }
+        } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     }
 
     return (
