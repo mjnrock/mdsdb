@@ -53,6 +53,8 @@ export default function Form(props = {}) {
         node.next(EnumMessageType.SAVE_FORM);
     }
 
+    console.log(state)
+
     return (
         <>
             <Segment color="black" style={ { paddingTop: 0 } }>
@@ -63,7 +65,7 @@ export default function Form(props = {}) {
                     <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
                         <Button basic labelPosition="left">
                             <Icon name={ isVisible ? "angle down" : "angle up" } />
-                            <span>{ isVisible ? "Hide" : "Show" }<span style={{ fontWeight: "bold" }}>&nbsp;Editor</span></span>
+                            <span>{ isVisible ? "Hide" : "Show" }<span style={ { fontWeight: "bold" } }>&nbsp;Editor</span></span>
                         </Button>
                     </Menu.Item>
 
@@ -72,14 +74,14 @@ export default function Form(props = {}) {
                         onClose={ () => setOpen({ ...open, fn: false }) }
                         onOpen={ () => setOpen({ ...open, fn: true }) }
                         open={ open.fn }
-                        trigger={(
-                            <Menu.Item name="text" onClick={ e => {} }>
+                        trigger={ (
+                            <Menu.Item name="text" onClick={ e => { } }>
                                 <Icon.Group size="large">
                                     <Icon name="code" color="grey" />
                                     <Icon corner="bottom right" name="add" color="grey" />
                                 </Icon.Group>
                             </Menu.Item>
-                        )}
+                        ) }
                     >
                         <FunctionEditor functions={ state.functions } onSubmit={ modifyFunction } />
                     </Modal>
@@ -104,14 +106,14 @@ export default function Form(props = {}) {
                             onClose={ () => setOpen({ ...open, preview: false }) }
                             onOpen={ () => setOpen({ ...open, preview: true }) }
                             open={ open.preview }
-                            trigger={(
-                                <Menu.Item onClick={ () => {} }>
+                            trigger={ (
+                                <Menu.Item onClick={ () => { } }>
                                     <Button basic labelPosition="left">
                                         <Icon name="unhide" color="grey" />
                                         Preview
                                     </Button>
                                 </Menu.Item>
-                            )}
+                            ) }
                         >
                             <FormViewer data={ state } />
                         </Modal>
@@ -154,10 +156,10 @@ export default function Form(props = {}) {
                     isVisible ? (
                         <MarkdownEditor onUpdate={ setInstructions } placeholder="[ Form Instructions ]" value={ instructions } style={ { marginTop: 8 } } />
                     ) : (
-                        <Segment basic>
-                            <MarkdownViewer source={ instructions } />
-                        </Segment>
-                    )
+                            <Segment basic>
+                                <MarkdownViewer source={ instructions } />
+                            </Segment>
+                        )
                 }
 
                 {
@@ -166,11 +168,16 @@ export default function Form(props = {}) {
                     ))
                 }
             </Segment>
-            
+
             <Segment color="red" secondary>
                 <pre>
                     {
-                        JSON.stringify(state, null, 2)
+                        JSON.stringify(state, function (k, v) {
+                            if (typeof v === "function") {
+                                return v + "";
+                            }
+                            return v;
+                        }, 2)
                     }
                 </pre>
             </Segment>
