@@ -29,6 +29,14 @@ function(controller, state, react) {
         if(typeof props.onSubmit === "function") {
             props.onSubmit(name, code || code.constructor.name);
         }
+        if(typeof props.onSave === "function") {
+            props.onSave();
+        }
+    }
+    function cancel() {
+        if(typeof props.onCancel === "function") {
+            props.onCancel();
+        }
     }
 
     useEffect(() => {
@@ -106,7 +114,7 @@ function(controller, state, react) {
                     <Grid.Column width={ 16 }>
                         <Button.Group fluid>
                             <Button onClick={ e => save() } color="blue">Save</Button>
-                            <Button>Cancel</Button>
+                            <Button onClick={ e => cancel() }>Cancel</Button>
                         </Button.Group>
                     </Grid.Column>
                 </Grid.Row>

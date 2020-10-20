@@ -53,8 +53,6 @@ export default function Form(props = {}) {
         node.next(EnumMessageType.SAVE_FORM);
     }
 
-    console.log(state)
-
     return (
         <>
             <Segment color="black" style={ { paddingTop: 0 } }>
@@ -83,7 +81,12 @@ export default function Form(props = {}) {
                             </Menu.Item>
                         ) }
                     >
-                        <FunctionEditor functions={ state.functions } onSubmit={ modifyFunction } />
+                        <FunctionEditor
+                            functions={ state.functions }
+                            onSubmit={ modifyFunction }
+                            onCancel={ () => setOpen({ ...open, fn: false }) }
+                            onSave={ () => setOpen({ ...open, fn: false }) }
+                        />
                     </Modal>
 
                     <Menu.Item name="text" onClick={ e => addQuery() }>
