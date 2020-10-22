@@ -20,7 +20,7 @@ export default function Component(props = {}) {
                                 <Grid.Column>
                                     <div style={{ display: "flex" }}>
                                         <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} { ...props.dragHandleProps } />
-                                        <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => modifyEntry(entry, "label", e.target.value) } />
+                                        <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => onModify(entry, "label", e.target.value) } />
                                     </div>
                                 </Grid.Column>
 
