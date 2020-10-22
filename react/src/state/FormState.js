@@ -266,7 +266,39 @@ const StateNode = new Node({
             {
                 id: uuidv4(),
                 text: null,
-                entries: [],
+                entries: [
+
+
+                    {
+                        "id": "dd0f03e1-982b-48b4-a982-91b38f0db51b",
+                        "type": "TEXT",
+                        "label": "A",
+                        "validator": "input => true",
+                        "order": 0
+                      },
+                      {
+                        "id": "3507e012-a197-450d-a847-fae28707f25c",
+                        "type": "TEXT",
+                        "label": "B",
+                        "validator": "input => true",
+                        "order": 1
+                      },
+                      {
+                        "id": "23d34ae6-a7a0-4846-8685-979132035e32",
+                        "type": "TEXT",
+                        "label": "C",
+                        "validator": "input => true",
+                        "order": 2
+                      },
+                      {
+                        "id": "92db0989-d764-4e4a-bf3b-20f29281044c",
+                        "type": "TEXT",
+                        "label": "D",
+                        "validator": "input => true",
+                        "order": 3
+                      }
+
+                ],
             }
         ],
         functions: {
@@ -389,19 +421,29 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_MODIFY, (state, t, 
 StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_REORDER, (state, t, data) => {
     const { section, left, right } = data;
 
-    let entries = {};
-    section.entries.forEach(entry => {
-        if(entry.order === left) {
-            entries.left = entry;
-        } else if(entry.order === right) {
-            entries.right = entry;
+    const entry = section.entries[ left ];
+    for(let i = right + 1; i < section.entries.length; i++) {
+        section.entries[ i ].order += 1;
+    }
+    entry.order = right + 1;
+    if(right > left) {
+        //  Moved down the list
+        for(let i = right + 1; i < section.entries.length; i++) {
+            section.entries[ i ].order += 1;
         }
-    });
-
-    entries.left.order = right;
-    entries.right.order = left;
+        entry.order = right + 1;
+    } else if(left > right) {
+        //  Moved up the list
+        for(let i = right; i < section.entries.length; i++) {
+            section.entries[ i ].order += 1;
+        }
+        entry.order = right;
+    }    
     
-    section.entries.sort((a, b) => a.order - b.order);
+    section.entries.sort((a, b) => a.order - b.order);      // sort
+    for(let i = 0; i < section.entries.length; i++) {       // normalize
+        section.entries[ i ].order = i;
+    }
 
     return state;
 }));
