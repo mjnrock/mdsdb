@@ -2,6 +2,243 @@ import { v4 as uuidv4 } from "uuid";
 
 import Node from "../lib/Node";
 
+
+
+export const EnumValidator = {
+    BUTTON: input => true,
+    CHECKBOX: input => true,
+    RADIO: input => true,
+    SLIDER: input => true,
+    TOGGLE: input => true,
+    DROPDOWN_SINGLE: input => true,
+    DROPDOWN_MULTI: input => true,
+
+    TEXT: input => true,
+    TEXT_PHONE: input => input.length === 10,
+    TEXT_EMAIL: input => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input),
+    TEXT_MULTI: input => true,
+    TEXT_MARKDOWN: input => true,
+
+    NUMBER: input => true,
+    NUMBER_INTEGER: input => true,
+    NUMBER_DECIMAL: input => true,
+    NUMBER_PERCENT: input => true,
+    NUMBER_CURRENCY: input => true,
+    
+    DATE: input => true,
+    TIME: input => true,
+    DATETIME: input => true,
+
+    LABEL: input => true,
+    COLOR: input => true,
+    FILE: input => true,
+};
+
+export const EnumComponentType = {
+    BUTTON: "BUTTON",
+    CHECKBOX: "CHECKBOX",
+    RADIO: "RADIO",
+    SLIDER: "SLIDER",
+    TOGGLE: "TOGGLE",
+    DROPDOWN_SINGLE: "DROPDOWN_SINGLE",
+    DROPDOWN_MULTI: "DROPDOWN_MULTI",
+
+    TEXT: "TEXT",
+    TEXT_PHONE: "TEXT_PHONE",
+    TEXT_EMAIL: "TEXT_EMAIL",
+    TEXT_MULTI: "TEXT_MULTI",
+    TEXT_MARKDOWN: "TEXT_MARKDOWN",
+
+    NUMBER: "NUMBER",
+    NUMBER_INTEGER: "NUMBER_INTEGER",
+    NUMBER_DECIMAL: "NUMBER_DECIMAL",
+    NUMBER_PERCENT: "NUMBER_PERCENT",
+    NUMBER_CURRENCY: "NUMBER_CURRENCY",
+    
+    DATE: "DATE",
+    TIME: "TIME",
+    DATETIME: "DATETIME",
+
+    LABEL: "LABEL",
+    COLOR: "COLOR",
+    FILE: "FILE",
+};
+
+export const EnumComponent = {
+    Control: {
+        icon: "cogs",
+        color: "green",
+        values: [
+            {
+                type: EnumComponentType.BUTTON,
+                label: "Button",
+                icon: "hand point up outline",
+                validator: EnumValidator.BUTTON,
+            },
+            {
+                type: EnumComponentType.CHECKBOX,
+                label: "Checkbox",
+                icon: "check square outline",
+                validator: EnumValidator.CHECKBOX,
+            },
+            {
+                type: EnumComponentType.RADIO,
+                label: "Radio",
+                icon: "dot circle outline",
+                validator: EnumValidator.RADIO,
+            },
+            {
+                type: EnumComponentType.SLIDER,
+                label: "Slider",
+                icon: "sliders",
+                validator: EnumValidator.SLIDER,
+            },
+            {
+                type: EnumComponentType.TOGGLE,
+                label: "Toggle",
+                icon: "toggle on",
+                validator: EnumValidator.TOGGLE,
+            },
+            {
+                type: EnumComponentType.DROPDOWN_SINGLE,
+                label: "Dropdown - Single",
+                icon: "caret square down outline",
+                validator: EnumValidator.DROPDOWN_SINGLE,
+            },
+            {
+                type: EnumComponentType.DROPDOWN_MULTI,
+                label: "Dropdown - Multiple",
+                icon: "plus square outline",
+                validator: EnumValidator.DROPDOWN_MULTI,
+            },
+        ]
+    },
+    Text: {
+        icon: "font",
+        color: "red",
+        values: [
+            {
+                type: EnumComponentType.TEXT,
+                label: "Generic",
+                icon: "font",
+                validator: EnumValidator.TEXT,
+            },
+            true,
+            {
+                type: EnumComponentType.TEXT_PHONE,
+                label: "Phone",
+                icon: "call",
+                validator: EnumValidator.TEXT_PHONE,
+            },
+            {
+                type: EnumComponentType.TEXT_EMAIL,
+                label: "Email",
+                icon: "mail outline",
+                validator: EnumValidator.TEXT_EMAIL,
+            },
+            true,            
+            {
+                type: EnumComponentType.TEXT_MULTI,
+                label: "Textarea",
+                icon: "text cursor",
+                validator: EnumValidator.TEXT_MULTI,
+            },
+            {
+                type: EnumComponentType.TEXT_MARKDOWN,
+                label: "Markdown",
+                icon: "heading",
+                validator: EnumValidator.TEXT_MARKDOWN,
+            },
+        ]
+    },
+    Number: {
+        icon: "hashtag",
+        color: "blue",
+        values: [
+            {
+                type: EnumComponentType.NUMBER,
+                label: "Generic",
+                icon: "hashtag",
+                validator: EnumValidator.NUMBER,
+            },
+            true,
+            {
+                type: EnumComponentType.NUMBER_INTEGER,
+                label: "Integer",
+                icon: "sort numeric down",
+                validator: EnumValidator.NUMBER_INTEGER,
+            },
+            {
+                type: EnumComponentType.NUMBER_DECIMAL,
+                label: "Decimal",
+                icon: "calculator",
+                validator: EnumValidator.NUMBER_DECIMAL,
+            },           
+            {
+                type: EnumComponentType.NUMBER_PERCENT,
+                label: "Percent",
+                icon: "percent",
+                validator: EnumValidator.NUMBER_PERCENT,
+            },
+            {
+                type: EnumComponentType.NUMBER_CURRENCY,
+                label: "Currency",
+                icon: "dollar",
+                validator: EnumValidator.NUMBER_CURRENCY,
+            },
+        ]
+    },
+    Timestamp: {
+        icon: "hourglass half",
+        color: "orange",
+        values: [
+            {
+                type: EnumComponentType.DATE,
+                label: "Date",
+                icon: "calendar alternate outline",
+                validator: EnumValidator.DATE,
+            },
+            {
+                type: EnumComponentType.TIME,
+                label: "Time",
+                icon: "clock outline",
+                validator: EnumValidator.TIME,
+            },
+            {
+                type: EnumComponentType.DATETIME,
+                label: "DateTime",
+                icon: "hourglass outline",
+                validator: EnumValidator.DATETIME,
+            },
+        ]
+    },
+    Miscellaneous: {
+        icon: "ellipsis horizontal",
+        color: "purple",
+        values: [
+            {
+                type: EnumComponentType.LABEL,
+                label: "Label",
+                icon: "bold",
+                validator: EnumValidator.LABEL,
+            },
+            true,
+            {
+                type: EnumComponentType.COLOR,
+                label: "Color",
+                icon: "tint",
+                validator: EnumValidator.COLOR,
+            },
+            {
+                type: EnumComponentType.FILE,
+                label: "File",
+                icon: "file alternate outline",
+                validator: EnumValidator.FILE,
+            },
+        ]
+    },
+};
+
 const StateNode = new Node({
     state: {
         id: uuidv4(),

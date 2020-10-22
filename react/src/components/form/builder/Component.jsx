@@ -1,130 +1,70 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Menu, Button } from "semantic-ui-react";
-import MarkdownViewer from "react-markdown";
+import { Table, Icon, Input, Dropdown, Grid } from "semantic-ui-react";
 
-import { useNodeContext } from "../../../lib/ReactContext";
-import { Context } from "./../../../routes/FormBuilder";
-import { EnumMessageType } from "../../../state/FormState";
-
-import MarkdownEditor from "./MarkdownEditor";
-import PromptText from "./PromptText";
-import PromptSelection from "./PromptSelection";
+import { EnumComponentType } from "./../../../state/FormState";
 
 export default function Component(props = {}) {
-    const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState(props.section.text);
-    const [ isVisible, setIsVisible ] = useState(true);
-    const prompts = props.section.prompts;
+    const entry = props.entry;
+    const data = props.data || {};
 
-    useEffect(() => {
-        if(props.section.text && props.section.text.length) {
-            setText(props.section.text);
+    function selectComponent() {
+        const onModify = props.onModify || (() => true);
+
+        switch(entry.type) {
+            case EnumComponentType.BUTTON:
+                return (
+                    <Table.Cell width={ 8 }>
+                        <Grid verticalAlign="middle">
+                            <Grid.Row columns={ 2 }>
+                                <Grid.Column>
+                                    <div style={{ display: "flex" }}>
+                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                                        <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => modifyEntry(entry, "label", e.target.value) } />
+                                    </div>
+                                </Grid.Column>
+
+                                <Grid.Column>
+                                    <Dropdown fluid selection text={( 
+                                        <div>
+                                            <Icon name="cogs" color="green" />
+                                            { entry.value }
+                                        </div>
+                                    )}>
+                                        <Dropdown.Menu>
+                                            {
+                                                Object.entries(data.functions || {}).map(([ key, value ]) => (
+                                                    <Dropdown.Item key={ key } onClick={ e => onModify(entry, "value", key) }>{ key }</Dropdown.Item>
+                                                ))
+                                            }
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Table.Cell>
+                );
+            default:
+                return (
+                    <Table.Cell width={ 8 }>
+                        <div style={{ display: "flex" }}>
+                            <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                            <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => onModify(entry, "label", e.target.value) } />
+                        </div>
+                    </Table.Cell>
+                );
         }
-    }, [ props ]);
-
-    useEffect(() => {
-        node.next(EnumMessageType.SECTION_TEXT, {
-            section: props.section,
-            text,
-        });
-    }, [ text ]);
-
-    function addPrompt(type) {
-        node.next(EnumMessageType.PROMPT_ADD, {
-            type,
-            section: props.section,
-        });
-    }
-    function removeSection() {
-        node.next(EnumMessageType.SECTION_REMOVE, {
-            section: props.section,
-        });
     }
 
-    return (
-        <Segment basic color="grey" style={{ paddingRight: 0, paddingTop: 0 }}>
-            <Menu size="small" style={{ marginTop: 8, marginBottom: 16 }} >
-                <Menu.Item header style={{ color: "rgb(118, 118, 118)" }}>Section</Menu.Item>
-                <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ props.section.id }</Menu.Item>
-
-                <Menu.Item name="text" onClick={ e => addPrompt(1) }>
-                    <Icon.Group size="large">
-                        <Icon name="font" color="red" />
-                        <Icon corner="bottom right" name="add" color="red" />
-                    </Icon.Group>
-                </Menu.Item>
-                {/* <Menu.Item name="number">
-                    <Icon.Group size="large">
-                        <Icon name="hashtag" />
-                        <Icon corner="bottom right" name="add" color="blue" />
-                    </Icon.Group>
-                </Menu.Item> */}
-                <Menu.Item name="selection" onClick={ e => addPrompt(2) }>
-                    <Icon.Group size="large">
-                        <Icon name="list ol" color="purple" />
-                        <Icon corner="bottom right" name="add" color="purple" />
-                    </Icon.Group>
-                </Menu.Item>
-                {/* <Menu.Item name="datetime">
-                    <Icon.Group size="large">
-                        <Icon name="hourglass half" />
-                        <Icon corner="bottom right" name="add" color="blue" />
-                    </Icon.Group>
-                </Menu.Item>
-                <Menu.Item name="date">
-                    <Icon.Group size="large">
-                        <Icon name="calendar alternate outline" />
-                        <Icon corner="bottom right" name="add" color="blue" />
-                    </Icon.Group>
-                </Menu.Item>
-                <Menu.Item name="time">
-                    <Icon.Group size="large">
-                        <Icon name="clock outline" />
-                        <Icon corner="bottom right" name="add" color="blue" />
-                    </Icon.Group>
-                </Menu.Item> */}
-
-                <Menu.Menu position="right">
-                    <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
-                        <Button basic labelPosition="left">
-                            <Icon name={ isVisible ? "caret down" : "caret up" } />
-                            { isVisible ? "Collapse" : "Expand" }
-                        </Button>
-                    </Menu.Item>
-                    
-                    <Menu.Item onClick={ removeSection }>
-                        <Button basic labelPosition="left">
-                            <Icon name="trash alternate outline" color="red" />
-                            Remove Section
-                        </Button>
-                    </Menu.Item>
-                </Menu.Menu>
-            </Menu>
-            
-            {
-                isVisible ? (
-                    <MarkdownEditor onUpdate={ setText } placeholder="[ Section Text ]" value={ text }/>
-                ) : (
-                    <MarkdownViewer source={ text } />
-                )
-            }
-            
-            {
-                prompts.map(prompt => {
-                    if(prompt.type === 1) {
-                        return (
-                            <PromptText key={ prompt.id } prompt={ prompt } section={ props.section } />
-                        );
-                    } else if(prompt.type === 2) {
-                        return (
-                            <PromptSelection key={ prompt.id } prompt={ prompt } section={ props.section } />
-                        );
-                    }
-
-                    return null;
-                })
-            }
-        </Segment>
+    return (        
+        <Table.Row key={ entry.id } verticalAlign="middle">
+            { selectComponent() }
+            <Table.Cell width={ 2 }>
+                <Input type="text" fluid readOnly value={ entry.type || "" } />
+            </Table.Cell>
+            <Table.Cell width={ 2 }>
+                <Icon name="trash alternate outline" color="red" onClick={ e => removeEntry(entry) } style={{ cursor: "pointer" }} />
+            </Table.Cell>
+        </Table.Row>
     );
 }

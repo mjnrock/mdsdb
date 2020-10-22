@@ -1,45 +1,50 @@
 /* eslint-disable */
 import React from "react";
-import { Container, Input, Grid, TextArea, Button } from "semantic-ui-react";
+import { Container, Input, Grid, TextArea, Button, Dropdown, Checkbox } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
+import { EnumComponentType } from "../../../state/FormState";
 
 export default function Component(props = {}) {
     const entry = props.entry;
     const data = props.data || {};
 
-    function onResponse(entry, value) {
+    //  STUB
+    const testData = entry.data || [ { key: 1, text: "Cat", value: 1 }, { key: 2, text: "Dog", value: 2 } ];
+
+    function onResponse(entry, prop) {
         if(typeof props.onResponse === "function") {
-            props.onResponse(entry, value);
+            props.onResponse(entry, prop);
         }
     }
 
     let input = null;
-    if(entry.type === "text:multi") {
+
+    if(entry.type === EnumComponentType.TEXT_MULTI) {
         input = <TextArea fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "text:markdown") {
+    } else if(entry.type === EnumComponentType.TEXT_MARKDOWN) {
         input = <MarkdownEditor onUpdate={ text => onResponse(entry, text) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "text:email") {
+    } else if(entry.type === EnumComponentType.TEXT_EMAIL) {
         input = <Input type="email" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "text:phone") {
+    } else if(entry.type === EnumComponentType.TEXT_PHONE) {
         input = <Input type="tel" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type.match(/text.*/i)) {
+    } else if(entry.type.match(/TEXT.*/i)) {
         input = <Input type="text" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type.match(/number.*/i)) {
+    } else if(entry.type.match(/NUMBER.*/i)) {
         input = <Input type="number" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "date") {
+    } else if(entry.type === EnumComponentType.DATE) {
         input = <Input type="date" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "time") {
+    } else if(entry.type === EnumComponentType.TIME) {
         input = <Input type="time" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "datetime") {
+    } else if(entry.type === EnumComponentType.DATETIME) {
         input = <Input type="datetime-local" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "color") {
+    } else if(entry.type === EnumComponentType.COLOR) {
         input = <Input type="color" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "file") {
+    } else if(entry.type === EnumComponentType.FILE) {
         input = <Input type="file" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
-    } else if(entry.type === "label") {
+    } else if(entry.type === EnumComponentType.LABEL) {
         input = <div style={{ flexGrow: 1 }}>{ entry.label }</div>
-    } else if(entry.type === "button") {
+    } else if(entry.type === EnumComponentType.BUTTON) {
         input = <Button fluid onClick={ e => {
             const fn = data.functions[ entry.value ];
 
@@ -47,6 +52,21 @@ export default function Component(props = {}) {
                 fn(e);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
+
+    //  TODO These <Checkbox /> variants need to be built out in the Builder, currently a partial STUB
+    } else if(entry.type === EnumComponentType.CHECKBOX) {
+        input = <Checkbox label={ entry.label } />;
+    } else if(entry.type === EnumComponentType.RADIO) {
+        input = <Checkbox label={ entry.label } radio />;
+    } else if(entry.type === EnumComponentType.SLIDER) {
+        input = <Checkbox label={ entry.label } slider />;
+    } else if(entry.type === EnumComponentType.TOGGLE) {
+        input = <Checkbox label={ entry.label } toggle />;
+
+    } else if(entry.type === EnumComponentType.DROPDOWN_SINGLE) {
+        input = <Dropdown fluid selection options={ testData } onChange={ (e, { options, value }) => console.log(value, options) } />;
+    } else if(entry.type === EnumComponentType.DROPDOWN_MULTI) {
+        input = <Dropdown fluid multiple selection options={ testData } onChange={ (e, { options, value }) => console.log(value, options) } />;
     }
 
     return (
@@ -56,7 +76,7 @@ export default function Component(props = {}) {
             <Grid>
                 <Grid.Row>
                     {
-                        [ "label", "button" ].includes(entry.type) ? (
+                        [ EnumComponentType.LABEL, EnumComponentType.BUTTON ].includes(entry.type) ? (
                             <>
                                 <Grid.Column width={ 16 } style={{ fontWeight: "bold", margin: "auto" }}>
                                     { input }
