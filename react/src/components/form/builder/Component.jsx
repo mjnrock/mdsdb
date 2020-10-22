@@ -25,7 +25,7 @@ export default function Component(props = {}) {
                                 </Grid.Column>
 
                                 <Grid.Column>
-                                    <Dropdown fluid selection text={( 
+                                    <Dropdown className="selection" fluid text={( 
                                         <div>
                                             <Icon name="cogs" color="green" />
                                             { entry.value }
