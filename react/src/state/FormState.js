@@ -6,11 +6,11 @@ import Node from "../lib/Node";
 
 export const EnumValidator = {
     BUTTON: input => true,
+    RATING: input => true,
     CHECKBOX: input => true,
     RADIO: input => true,
     SLIDER: input => true,
     TOGGLE: input => true,
-    RATING: input => true,
     DROPDOWN_SINGLE: input => true,
     DROPDOWN_MULTI: input => true,
 
@@ -37,11 +37,11 @@ export const EnumValidator = {
 
 export const EnumComponentType = {
     BUTTON: "BUTTON",
+    RATING: "RATING",
     CHECKBOX: "CHECKBOX",
     RADIO: "RADIO",
     SLIDER: "SLIDER",
     TOGGLE: "TOGGLE",
-    RATING: "RATING",
     DROPDOWN_SINGLE: "DROPDOWN_SINGLE",
     DROPDOWN_MULTI: "DROPDOWN_MULTI",
 
@@ -77,6 +77,12 @@ export const EnumComponent = {
                 icon: "hand point up outline",
                 validator: EnumValidator.BUTTON,
             },
+            {
+                type: EnumComponentType.RATING,
+                label: "Rating",
+                icon: "star outline",
+                validator: EnumValidator.RATING,
+            },
             true,
             {
                 type: EnumComponentType.CHECKBOX,
@@ -101,12 +107,6 @@ export const EnumComponent = {
                 label: "Toggle",
                 icon: "toggle on",
                 validator: EnumValidator.TOGGLE,
-            },
-            {
-                type: EnumComponentType.RATING,
-                label: "Rating",
-                icon: "star outline",
-                validator: EnumValidator.RATING,
             },
             true,
             {

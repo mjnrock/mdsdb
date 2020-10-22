@@ -52,6 +52,8 @@ export default function Component(props = {}) {
                 fn(e);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
+    } else if(entry.type === EnumComponentType.RATING) {
+            input = <Rating icon="heart" defaultRating={ 3 } maxRating={ 5 } />;
 
     //  TODO These <Checkbox /> variants need to be built out in the Builder, currently a partial STUB
     } else if(entry.type === EnumComponentType.CHECKBOX) {
@@ -62,8 +64,6 @@ export default function Component(props = {}) {
         input = <Checkbox label={ entry.label } slider />;
     } else if(entry.type === EnumComponentType.TOGGLE) {
         input = <Checkbox label={ entry.label } toggle />;
-    } else if(entry.type === EnumComponentType.RATING) {
-        input = <Rating icon="heart" defaultRating={ 3 } maxRating={ 5 } />;
 
     } else if(entry.type === EnumComponentType.DROPDOWN_SINGLE) {
         input = <Dropdown fluid selection options={ testData } onChange={ (e, { options, value }) => console.log(value, options) } />;
