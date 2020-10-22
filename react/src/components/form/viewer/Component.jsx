@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React from "react";
-import { Container, Input, Grid, TextArea, Button, Dropdown, Checkbox } from "semantic-ui-react";
+import { Container, Input, Grid, TextArea, Button, Dropdown, Checkbox, Rating } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
 import { EnumComponentType } from "../../../state/FormState";
@@ -62,6 +62,8 @@ export default function Component(props = {}) {
         input = <Checkbox label={ entry.label } slider />;
     } else if(entry.type === EnumComponentType.TOGGLE) {
         input = <Checkbox label={ entry.label } toggle />;
+    } else if(entry.type === EnumComponentType.RATING) {
+        input = <Rating icon="heart" defaultRating={ 3 } maxRating={ 5 } />;
 
     } else if(entry.type === EnumComponentType.DROPDOWN_SINGLE) {
         input = <Dropdown fluid selection options={ testData } onChange={ (e, { options, value }) => console.log(value, options) } />;

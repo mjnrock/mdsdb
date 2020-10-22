@@ -10,6 +10,7 @@ export const EnumValidator = {
     RADIO: input => true,
     SLIDER: input => true,
     TOGGLE: input => true,
+    RATING: input => true,
     DROPDOWN_SINGLE: input => true,
     DROPDOWN_MULTI: input => true,
 
@@ -40,6 +41,7 @@ export const EnumComponentType = {
     RADIO: "RADIO",
     SLIDER: "SLIDER",
     TOGGLE: "TOGGLE",
+    RATING: "RATING",
     DROPDOWN_SINGLE: "DROPDOWN_SINGLE",
     DROPDOWN_MULTI: "DROPDOWN_MULTI",
 
@@ -75,6 +77,7 @@ export const EnumComponent = {
                 icon: "hand point up outline",
                 validator: EnumValidator.BUTTON,
             },
+            true,
             {
                 type: EnumComponentType.CHECKBOX,
                 label: "Checkbox",
@@ -99,6 +102,13 @@ export const EnumComponent = {
                 icon: "toggle on",
                 validator: EnumValidator.TOGGLE,
             },
+            {
+                type: EnumComponentType.RATING,
+                label: "Rating",
+                icon: "star outline",
+                validator: EnumValidator.RATING,
+            },
+            true,
             {
                 type: EnumComponentType.DROPDOWN_SINGLE,
                 label: "Dropdown - Single",
