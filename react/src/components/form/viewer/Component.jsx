@@ -3,6 +3,8 @@ import React from "react";
 import { Container, Input, Grid, TextArea, Button, Dropdown, Checkbox, Rating } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
+import { BlockMath } from "react-katex";
+
 import { EnumComponentType } from "../../../state/FormState";
 
 export default function Component(props = {}) {
@@ -24,10 +26,17 @@ export default function Component(props = {}) {
         input = <TextArea fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type === EnumComponentType.TEXT_MARKDOWN) {
         input = <MarkdownEditor onUpdate={ text => onResponse(entry, text) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === EnumComponentType.KATEX) {
+        input = <BlockMath>{ entry.data }</BlockMath>;
     } else if(entry.type === EnumComponentType.TEXT_EMAIL) {
         input = <Input type="email" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type === EnumComponentType.TEXT_PHONE) {
         input = <Input type="tel" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === EnumComponentType.NUMBER_DECIMAL) {
+        input = <Input type="number" step={ 0.01 } fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+    } else if(entry.type === EnumComponentType.NUMBER_COMPUTATION) {
+        //TODO Add functionality for this
+        input = <Input type="number" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type.match(/TEXT.*/i)) {
         input = <Input type="text" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(entry.type.match(/NUMBER.*/i)) {

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Table, Icon, Input, Dropdown, Grid } from "semantic-ui-react";
+import { Table, Icon, Input, Dropdown, Grid, TextArea } from "semantic-ui-react";
 
 import { EnumComponentType } from "./../../../state/FormState";
 
@@ -39,6 +39,25 @@ export default function Component(props = {}) {
                                             }
                                         </Dropdown.Menu>
                                     </Dropdown>
+                                </Grid.Column>
+                            </Grid.Row>
+                        </Grid>
+                    </Table.Cell>
+                );
+            case EnumComponentType.KATEX:
+                return (
+                    <Table.Cell width={ 8 }>
+                        <Grid verticalAlign="middle">
+                            <Grid.Row columns={ 2 }>
+                                <Grid.Column>
+                                    <div style={{ display: "flex" }}>
+                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                                        <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => onModify(entry, "label", e.target.value) } />
+                                    </div>
+                                </Grid.Column>
+
+                                <Grid.Column>
+                                    <TextArea style={{ flexGrow: 1 }} placeholder={ `[ KaTeX Notation ]` } onChange={ e => onModify(entry, "data", e.target.value) } />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

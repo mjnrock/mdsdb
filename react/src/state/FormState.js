@@ -19,12 +19,14 @@ export const EnumValidator = {
     TEXT_EMAIL: input => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input),
     TEXT_MULTI: input => true,
     TEXT_MARKDOWN: input => true,
+    KATEX: input => true,
 
     NUMBER: input => true,
     NUMBER_INTEGER: input => true,
     NUMBER_DECIMAL: input => true,
     NUMBER_PERCENT: input => true,
     NUMBER_CURRENCY: input => true,
+    NUMBER_COMPUTATION: input => true,
     
     DATE: input => true,
     TIME: input => true,
@@ -50,12 +52,14 @@ export const EnumComponentType = {
     TEXT_EMAIL: "TEXT_EMAIL",
     TEXT_MULTI: "TEXT_MULTI",
     TEXT_MARKDOWN: "TEXT_MARKDOWN",
+    KATEX: "TEXT_KATEX",
 
     NUMBER: "NUMBER",
     NUMBER_INTEGER: "NUMBER_INTEGER",
     NUMBER_DECIMAL: "NUMBER_DECIMAL",
     NUMBER_PERCENT: "NUMBER_PERCENT",
     NUMBER_CURRENCY: "NUMBER_CURRENCY",
+    NUMBER_COMPUTATION: "NUMBER_COMPUTATION",
     
     DATE: "DATE",
     TIME: "TIME",
@@ -231,6 +235,12 @@ export const EnumComponent = {
                 label: "Label",
                 icon: "bold",
                 validator: EnumValidator.LABEL,
+            },
+            {
+                type: EnumComponentType.KATEX,
+                label: "KaTeX",
+                icon: "calculator",
+                validator: EnumValidator.KATEX,
             },
             true,
             {
