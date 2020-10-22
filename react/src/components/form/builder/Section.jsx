@@ -123,6 +123,10 @@ export default function Section(props = {}) {
                                 return (
                                     <Dropdown.Divider key={ i } />
                                 );
+                            } else if(typeof value === "string" || value instanceof String) {
+                                return (
+                                    <Dropdown.Header key={ i } content={ value } />
+                                );
                             }
 
                             return (

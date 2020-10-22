@@ -12,7 +12,7 @@ export default function Component(props = {}) {
         const onModify = props.onModify || (() => true);
 
         switch(entry.type) {
-            case EnumComponentType.BUTTON:
+            case EnumComponentType.CONTROL_BUTTON:
                 return (
                     <Table.Cell width={ 8 }>
                         <Grid verticalAlign="middle">
@@ -44,7 +44,7 @@ export default function Component(props = {}) {
                         </Grid>
                     </Table.Cell>
                 );
-            case EnumComponentType.KATEX:
+            case EnumComponentType.TEXT_KATEX:
                 return (
                     <Table.Cell width={ 8 }>
                         <Grid verticalAlign="middle">

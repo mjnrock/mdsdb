@@ -3,21 +3,24 @@ import { v4 as uuidv4 } from "uuid";
 import Node from "../lib/Node";
 
 export const EnumValidator = {
-    BUTTON: input => true,
-    RATING: input => true,
-    CHECKBOX: input => true,
-    RADIO: input => true,
-    SLIDER: input => true,
-    TOGGLE: input => true,
-    DROPDOWN_SINGLE: input => true,
-    DROPDOWN_MULTI: input => true,
+    CONTROL_BUTTON: input => true,
+
+    RESPONSE_FREE_TEXT: input => true,
+    RESPONSE_RATING: input => true,
+    RESPONSE_CHECKBOX: input => true,
+    RESPONSE_RADIO: input => true,
+    RESPONSE_RADIO_BUTTON: input => true,
+    RESPONSE_SLIDER: input => true,
+    RESPONSE_TOGGLE: input => true,
+    RESPONSE_DROPDOWN_SINGLE: input => true,
+    RESPONSE_DROPDOWN_MULTI: input => true,
 
     TEXT: input => true,
     TEXT_PHONE: input => input.length === 10,
     TEXT_EMAIL: input => /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(input),
     TEXT_MULTI: input => true,
     TEXT_MARKDOWN: input => true,
-    KATEX: input => true,
+    TEXT_KATEX: input => true,
 
     NUMBER: input => true,
     NUMBER_INTEGER: input => true,
@@ -30,27 +33,30 @@ export const EnumValidator = {
     TIME: input => true,
     DATETIME: input => true,
 
-    LABEL: input => true,
-    COLOR: input => true,
-    FILE: input => true,
+    MISC_LABEL: input => true,
+    MISC_COLOR: input => true,
+    MISC_FILE: input => true,
 };
 
 export const EnumComponentType = {
-    BUTTON: "BUTTON",
-    RATING: "RATING",
-    CHECKBOX: "CHECKBOX",
-    RADIO: "RADIO",
-    SLIDER: "SLIDER",
-    TOGGLE: "TOGGLE",
-    DROPDOWN_SINGLE: "DROPDOWN_SINGLE",
-    DROPDOWN_MULTI: "DROPDOWN_MULTI",
+    CONTROL_BUTTON: "CONTROL_BUTTON",
+
+    RESPONSE_FREE_TEXT: "RESPONSE_FREE_TEXT",
+    RESPONSE_RATING: "RESPONSE_RATING",
+    RESPONSE_CHECKBOX: "RESPONSE_CHECKBOX",
+    RESPONSE_RADIO: "RESPONSE_RADIO",
+    RESPONSE_RADIO_BUTTON: "RESPONSE_RADIO_BUTTON",
+    RESPONSE_SLIDER: "RESPONSE_SLIDER",
+    RESPONSE_TOGGLE: "RESPONSE_TOGGLE",
+    RESPONSE_DROPDOWN_SINGLE: "RESPONSE_DROPDOWN_SINGLE",
+    RESPONSE_DROPDOWN_MULTI: "RESPONSE_DROPDOWN_MULTI",
 
     TEXT: "TEXT",
     TEXT_PHONE: "TEXT_PHONE",
     TEXT_EMAIL: "TEXT_EMAIL",
     TEXT_MULTI: "TEXT_MULTI",
     TEXT_MARKDOWN: "TEXT_MARKDOWN",
-    KATEX: "TEXT_KATEX",
+    TEXT_KATEX: "TEXT_KATEX",
 
     NUMBER: "NUMBER",
     NUMBER_INTEGER: "NUMBER_INTEGER",
@@ -63,65 +69,73 @@ export const EnumComponentType = {
     TIME: "TIME",
     DATETIME: "DATETIME",
 
-    LABEL: "LABEL",
-    COLOR: "COLOR",
-    FILE: "FILE",
+    MISC_LABEL: "MISC_LABEL",
+    MISC_COLOR: "MISC_COLOR",
+    MISC_FILE: "MISC_FILE",
 };
 
 export const EnumComponent = {
-    Control: {
-        icon: "cogs",
-        color: "green",
+    Response: {
+        icon: "question circle outline",
+        color: "grey",
         values: [
+            "Singleton",
+            true,
             {
-                type: EnumComponentType.BUTTON,
-                label: "Button",
-                icon: "hand point up outline",
-                validator: EnumValidator.BUTTON,
+                type: EnumComponentType.RESPONSE_FREE_TEXT,
+                label: "Free Text",
+                icon: "keyboard outline",
+                validator: EnumValidator.RESPONSE_FREE_TEXT,
             },
             {
-                type: EnumComponentType.RATING,
+                type: EnumComponentType.RESPONSE_RATING,
                 label: "Rating",
                 icon: "star outline",
-                validator: EnumValidator.RATING,
-            },
-            true,
-            {
-                type: EnumComponentType.CHECKBOX,
-                label: "Checkbox",
-                icon: "check square outline",
-                validator: EnumValidator.CHECKBOX,
+                validator: EnumValidator.RESPONSE_RATING,
             },
             {
-                type: EnumComponentType.RADIO,
-                label: "Radio",
-                icon: "dot circle outline",
-                validator: EnumValidator.RADIO,
-            },
-            {
-                type: EnumComponentType.SLIDER,
+                type: EnumComponentType.RESPONSE_SLIDER,
                 label: "Slider",
                 icon: "sliders",
-                validator: EnumValidator.SLIDER,
+                validator: EnumValidator.RESPONSE_SLIDER,
             },
             {
-                type: EnumComponentType.TOGGLE,
+                type: EnumComponentType.RESPONSE_TOGGLE,
                 label: "Toggle",
                 icon: "toggle on",
-                validator: EnumValidator.TOGGLE,
+                validator: EnumValidator.RESPONSE_TOGGLE,
             },
+            "Multiple",
             true,
             {
-                type: EnumComponentType.DROPDOWN_SINGLE,
-                label: "Dropdown - Single",
-                icon: "caret square down outline",
-                validator: EnumValidator.DROPDOWN_SINGLE,
+                type: EnumComponentType.RESPONSE_CHECKBOX,
+                label: "Checkbox",
+                icon: "check square outline",
+                validator: EnumValidator.RESPONSE_CHECKBOX,
             },
             {
-                type: EnumComponentType.DROPDOWN_MULTI,
-                label: "Dropdown - Multiple",
+                type: EnumComponentType.RESPONSE_RADIO,
+                label: "Radio",
+                icon: "dot circle outline",
+                validator: EnumValidator.RESPONSE_RADIO,
+            },
+            {
+                type: EnumComponentType.RESPONSE_DROPDOWN_SINGLE,
+                label: "Dropdown (Single Select)",
+                icon: "caret square down outline",
+                validator: EnumValidator.RESPONSE_DROPDOWN_SINGLE,
+            },
+            {
+                type: EnumComponentType.RESPONSE_DROPDOWN_MULTI,
+                label: "Dropdown (Multiple Select)",
                 icon: "plus square outline",
-                validator: EnumValidator.DROPDOWN_MULTI,
+                validator: EnumValidator.RESPONSE_DROPDOWN_MULTI,
+            },
+            {
+                type: EnumComponentType.RESPONSE_RADIO_BUTTON,
+                label: "Button Group",
+                icon: "hand point up outline",
+                validator: EnumValidator.RESPONSE_RADIO_BUTTON,
             },
         ]
     },
@@ -160,6 +174,12 @@ export const EnumComponent = {
                 label: "Markdown",
                 icon: "heading",
                 validator: EnumValidator.TEXT_MARKDOWN,
+            },
+            {
+                type: EnumComponentType.TEXT_KATEX,
+                label: "KaTeX",
+                icon: "calculator",
+                validator: EnumValidator.TEXT_KATEX,
             },
         ]
     },
@@ -229,29 +249,35 @@ export const EnumComponent = {
         color: "purple",
         values: [
             {
-                type: EnumComponentType.LABEL,
+                type: EnumComponentType.MISC_LABEL,
                 label: "Label",
                 icon: "bold",
-                validator: EnumValidator.LABEL,
-            },
-            {
-                type: EnumComponentType.KATEX,
-                label: "KaTeX",
-                icon: "calculator",
-                validator: EnumValidator.KATEX,
+                validator: EnumValidator.MISC_LABEL,
             },
             true,
             {
-                type: EnumComponentType.COLOR,
+                type: EnumComponentType.MISC_COLOR,
                 label: "Color",
                 icon: "tint",
-                validator: EnumValidator.COLOR,
+                validator: EnumValidator.MISC_COLOR,
             },
             {
-                type: EnumComponentType.FILE,
+                type: EnumComponentType.MISC_FILE,
                 label: "File",
                 icon: "file alternate outline",
-                validator: EnumValidator.FILE,
+                validator: EnumValidator.MISC_FILE,
+            },
+        ]
+    },
+    Control: {
+        icon: "cogs",
+        color: "green",
+        values: [
+            {
+                type: EnumComponentType.CONTROL_BUTTON,
+                label: "Button",
+                icon: "hand point up outline",
+                validator: EnumValidator.CONTROL_BUTTON,
             },
         ]
     },
@@ -266,39 +292,7 @@ const StateNode = new Node({
             {
                 id: uuidv4(),
                 text: null,
-                entries: [
-
-
-                    {
-                        "id": "dd0f03e1-982b-48b4-a982-91b38f0db51b",
-                        "type": "TEXT",
-                        "label": "A",
-                        "validator": "input => true",
-                        "order": 0
-                      },
-                      {
-                        "id": "3507e012-a197-450d-a847-fae28707f25c",
-                        "type": "TEXT",
-                        "label": "B",
-                        "validator": "input => true",
-                        "order": 1
-                      },
-                      {
-                        "id": "23d34ae6-a7a0-4846-8685-979132035e32",
-                        "type": "TEXT",
-                        "label": "C",
-                        "validator": "input => true",
-                        "order": 2
-                      },
-                      {
-                        "id": "92db0989-d764-4e4a-bf3b-20f29281044c",
-                        "type": "TEXT",
-                        "label": "D",
-                        "validator": "input => true",
-                        "order": 3
-                      }
-
-                ],
+                entries: [],
             }
         ],
         functions: {
