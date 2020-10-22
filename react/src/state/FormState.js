@@ -2,8 +2,6 @@ import { v4 as uuidv4 } from "uuid";
 
 import Node from "../lib/Node";
 
-
-
 export const EnumValidator = {
     BUTTON: input => true,
     RATING: input => true,
@@ -293,6 +291,7 @@ export const EnumMessageType = {
     ENTRY_ADD: "ENTRY_ADD",
     ENTRY_REMOVE: "ENTRY_REMOVE",
     ENTRY_MODIFY: "ENTRY_MODIFY",
+    ENTRY_REORDER: "ENTRY_REORDER",
 
     FUNCTION_ADD: "FUNCTION_ADD",
     FUNCTION_REMOVE: "FUNCTION_REMOVE",
@@ -384,6 +383,25 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_MODIFY, (state, t, 
 
     const index = section.entries.indexOf(entry);
     section.entries.splice(index, 1, newEntry);
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.ENTRY_REORDER, (state, t, data) => {
+    const { section, left, right } = data;
+
+    let entries = {};
+    section.entries.forEach(entry => {
+        if(entry.order === left) {
+            entries.left = entry;
+        } else if(entry.order === right) {
+            entries.right = entry;
+        }
+    });
+
+    entries.left.order = right;
+    entries.right.order = left;
+    
+    section.entries.sort((a, b) => a.order - b.order);
 
     return state;
 }));

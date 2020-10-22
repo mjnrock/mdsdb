@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Segment, Icon, Menu, Button, Dropdown, Table, Input } from "semantic-ui-react";
+import { Segment, Icon, Menu, Button, Dropdown, Table } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../routes/FormBuilder";
@@ -58,6 +59,25 @@ export default function Section(props = {}) {
                 [ prop ]: value,
             }
         });
+    }
+    
+
+    function onDragEnd(result) {
+        const { source, destination } = result;
+
+        if(!destination) {
+            return;
+        }
+
+        if(source.droppableId === destination.droppableId) {
+            if(source.droppableId === props.section.id) {
+                node.next(EnumMessageType.ENTRY_REORDER, {
+                    section: props.section,
+                    left: source.index,
+                    right: destination.index,
+                });
+            }
+        }
     }
 
     return (
@@ -140,13 +160,37 @@ export default function Section(props = {}) {
                     </Table.Row>
                 </Table.Header>
 
-                <Table.Body>
-                    {
-                        entries.map(entry => (
-                            <Component key={ entry.id } entry={ entry } data={ state } onModify={ modifyEntry } />
-                        ))
-                    }
-                </Table.Body>
+                <DragDropContext onDragEnd={ onDragEnd }>
+                    <Droppable droppableId={ props.section.id }>
+                        { (provided, snapshot) => (
+                            <tbody
+                                ref={ provided.innerRef }
+                                {...provided.droppableProps}
+                            >                            
+                                {
+                                    entries.map(entry => (                                        
+                                        <Draggable
+                                            key={ entry.id }
+                                            draggableId={ entry.id }
+                                            index={ entry.order }>
+                                            { (provided, snapshot) => (
+                                                <tr
+                                                    key={ entry.id }
+                                                    className={ `middle aligned` }
+                                                    ref={ provided.innerRef }
+                                                    { ...provided.draggableProps }
+                                                >
+                                                    <Component key={ entry.id } entry={ entry } data={ state } onModify={ modifyEntry } dragHandleProps={ provided.dragHandleProps } />
+                                                </tr>
+                                            ) }
+                                        </Draggable>
+                                    ))
+                                }
+                                { provided.placeholder }
+                            </tbody>
+                        ) }
+                    </Droppable>
+                </DragDropContext>
             </Table>
         </Segment>
     );

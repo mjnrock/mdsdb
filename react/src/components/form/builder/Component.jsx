@@ -19,7 +19,7 @@ export default function Component(props = {}) {
                             <Grid.Row columns={ 2 }>
                                 <Grid.Column>
                                     <div style={{ display: "flex" }}>
-                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} { ...props.dragHandleProps } />
                                         <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => modifyEntry(entry, "label", e.target.value) } />
                                     </div>
                                 </Grid.Column>
@@ -51,7 +51,7 @@ export default function Component(props = {}) {
                             <Grid.Row columns={ 2 }>
                                 <Grid.Column>
                                     <div style={{ display: "flex" }}>
-                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                                        <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} { ...props.dragHandleProps } />
                                         <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => onModify(entry, "label", e.target.value) } />
                                     </div>
                                 </Grid.Column>
@@ -67,7 +67,7 @@ export default function Component(props = {}) {
                 return (
                     <Table.Cell width={ 8 }>
                         <div style={{ display: "flex" }}>
-                            <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} />
+                            <Icon name="bars" color="grey" style={{ margin: "auto", marginRight: 8  }} { ...props.dragHandleProps } />
                             <Input type="text" style={{ flexGrow: 1 }} placeholder="[ Entry Label ]" value={ entry.label || "" } onChange={ e => onModify(entry, "label", e.target.value) } />
                         </div>
                     </Table.Cell>
@@ -75,8 +75,8 @@ export default function Component(props = {}) {
         }
     }
 
-    return (        
-        <Table.Row key={ entry.id } verticalAlign="middle">
+    return (
+        <>
             { selectComponent() }
             <Table.Cell width={ 2 }>
                 <Input type="text" fluid readOnly value={ entry.type || "" } />
@@ -84,6 +84,6 @@ export default function Component(props = {}) {
             <Table.Cell width={ 2 }>
                 <Icon name="trash alternate outline" color="red" onClick={ e => removeEntry(entry) } style={{ cursor: "pointer" }} />
             </Table.Cell>
-        </Table.Row>
+        </>
     );
 }

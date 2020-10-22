@@ -10,6 +10,7 @@
     "fast-equals": "^2.0.0",
     "mongoose": "^5.10.9",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-codemirror2": "^7.2.1",
     "react-dom": "^16.13.1",
     "react-katex": "^2.0.2",
