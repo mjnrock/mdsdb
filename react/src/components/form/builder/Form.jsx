@@ -11,6 +11,7 @@ import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";
 import FormViewer from "./../viewer/Form";
 import FunctionEditor from "./FunctionEditor";
+import QueryEditor from "./QueryEditor";
 
 export default function Form(props = {}) {
     const { node, state } = useNodeContext(Context);
@@ -41,6 +42,12 @@ export default function Form(props = {}) {
         // node.next(EnumMessageType.QUERY_ADD, {
         //     text: "",
         // });
+    }
+    function modifyQuery(name, query) {
+        node.next(EnumMessageType.QUERY_MODIFY, {
+            name,
+            query,
+        });
     }
     function modifyFunction(name, code) {
         node.next(EnumMessageType.FUNCTION_MODIFY, {
@@ -89,12 +96,27 @@ export default function Form(props = {}) {
                         />
                     </Modal>
 
-                    <Menu.Item name="text" onClick={ e => addQuery() }>
-                        <Icon.Group size="large">
-                            <Icon name="table" color="grey" />
-                            <Icon corner="bottom right" name="add" color="grey" />
-                        </Icon.Group>
-                    </Menu.Item>
+                    <Modal
+                        closeIcon
+                        onClose={ () => setOpen({ ...open, query: false }) }
+                        onOpen={ () => setOpen({ ...open, query: true }) }
+                        open={ open.query }
+                        trigger={ (
+                            <Menu.Item name="text" onClick={ e => addQuery() }>
+                                <Icon.Group size="large">
+                                    <Icon name="table" color="grey" />
+                                    <Icon corner="bottom right" name="add" color="grey" />
+                                </Icon.Group>
+                            </Menu.Item>
+                        ) }
+                    >
+                        <QueryEditor
+                            queries={ state.queries }
+                            onSubmit={ modifyQuery }
+                            onCancel={ () => setOpen({ ...open, query: false }) }
+                            onSave={ () => setOpen({ ...open, query: false }) }
+                        />
+                    </Modal>
 
                     <Menu.Item name="text" onClick={ e => addSection() }>
                         <Icon.Group size="large">
@@ -118,7 +140,7 @@ export default function Form(props = {}) {
                                 </Menu.Item>
                             ) }
                         >
-                            <FormViewer data={ state } />
+                            <FormViewer next={ node.next } data={ state } />
                         </Modal>
 
                         <Menu.Item onClick={ saveForm }>

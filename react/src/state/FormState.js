@@ -292,12 +292,22 @@ const StateNode = new Node({
             {
                 id: uuidv4(),
                 text: null,
-                entries: [],
+                entries: [
+                    {
+                      "id": "b6ca652d-09be-4004-a942-d6419df2811a",
+                      "type": "CONTROL_BUTTON",
+                      "label": "Click",
+                      "validator": "input => true",
+                      "order": 0,
+                      "value": "test"
+                    }
+                ],
             }
         ],
         functions: {
-            test: () => console.log(`Yes`)
+            test: (...args) => console.log(...args)
         },
+        queries: {},
     },
 });
 // const StateNode = new Node({
@@ -322,6 +332,10 @@ export const EnumMessageType = {
     FUNCTION_ADD: "FUNCTION_ADD",
     FUNCTION_REMOVE: "FUNCTION_REMOVE",
     FUNCTION_MODIFY: "FUNCTION_MODIFY",
+
+    QUERY_ADD: "QUERY_ADD",
+    QUERY_REMOVE: "QUERY_REMOVE",
+    QUERY_MODIFY: "QUERY_MODIFY",
 };
 
 StateNode.addEffect((state, oldState, type) => {
@@ -467,6 +481,27 @@ StateNode.addReducer(Node.TypedPayload(EnumMessageType.FUNCTION_MODIFY, (state, 
     if(typeof fn === "function") {
         state.functions[ name ] = fn;
     }
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.QUERY_ADD, (state, type, data) => {
+    const { name, query } = data;
+    
+    state.queries[ name ] = query;
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.QUERY_REMOVE, (state, type, data) => {
+    const { name } = data;
+
+    delete state.queries[ name ];
+
+    return state;
+}));
+StateNode.addReducer(Node.TypedPayload(EnumMessageType.QUERY_MODIFY, (state, t, data) => {
+    const { name, query } = data;
+    
+    state.queries[ name ] = query;
 
     return state;
 }));

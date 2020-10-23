@@ -4,30 +4,18 @@ import { Segment, Grid, Input, Button, Dropdown, Icon, Menu, Message, Header } f
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/javascript/javascript";
 
-export default function FunctionEditor(props = {}) {
+export default function QueryEditor(props = {}) {
     const [ current, setCurrent ] = useState("");
     const [ name, setName ] = useState("");
-    const [ code, setCode ] = useState(
-`// Example Code
-function(controller, state, react) {
-    // Get the Entry associated where: @id = "QUESTION_ID"
-    const qid = controller.get("QUESTION_ID");
-
-    // Get the React Component internal state variable: @name
-    console.log(react.name);
-    
-    // Get the Form's @id
-    console.log(state.id);
-
-    return;
-}`
+    const [ query, setQuery ] = useState(
+`// Example Query`
     );
 
-    const functions = props.functions || {};
+    const queries = props.queries || {};
 
     function save() {
         if(typeof props.onSubmit === "function") {
-            props.onSubmit(name, code || code.constructor.name);
+            props.onSubmit(name, query || query.constructor.name);
         }
         if(typeof props.onSave === "function") {
             props.onSave();
@@ -40,8 +28,8 @@ function(controller, state, react) {
     }
 
     useEffect(() => {
-        if(current in functions) {
-            setCode(functions[ current ].toString());
+        if(current in queries) {
+            setQuery(queries[ current ].toString());
             setName(current);
         }
     }, [ current ]);
@@ -51,13 +39,13 @@ function(controller, state, react) {
             <Menu size="small" style={{ marginBottom: 20 }}>
                 <Dropdown fluid item text={( 
                     <div>
-                        <Icon name="cogs" color="green" />
-                        { (name in functions) ? name : "Select an Existing Function..." }
+                        <Icon name="cogs" color="blue" />
+                        { (name in queries) ? name : "Select an Existing Query..." }
                     </div>
                 )}>
                     <Dropdown.Menu>
                         {
-                            Object.entries(functions || {}).map(([ key, value ]) => (
+                            Object.entries(queries || {}).map(([ key, value ]) => (
                                 <Dropdown.Item key={ key } onClick={ e => setCurrent(key) }>{ key }</Dropdown.Item>
                             ))
                         }
@@ -66,12 +54,12 @@ function(controller, state, react) {
             </Menu>
 
             {
-                (name in functions) ? (
+                (name in queries) ? (
                     <Message icon>
                         <Icon name="code" color="orange" />
                         <Message.Content>
                             <Header as="h3">{ name }</Header>
-                            You are currently modifying an existing function.<br /><br />
+                            You are currently modifying an existing query.<br /><br />
                             To overwrite, click <span style={{ fontWeight: "bold" }}>Save</span>; otherwise, change the <span style={{ fontWeight: "bold" }}>Name</span> field before saving.
                         </Message.Content>
                     </Message>
@@ -93,25 +81,18 @@ function(controller, state, react) {
                         Text
                     </Grid.Column>
                     <Grid.Column width={ 14 }>
-                        <CodeMirror onBeforeChange={ (editor, data, value) => setCode(value) } value={ code } options={{
+                        <CodeMirror onBeforeChange={ (editor, data, value) => setQuery(value) } value={ query } options={{
                             lineNumbers: true,
                             mode: "javascript",
-                            code: code,
+                            code: query,
                         }} />
-                    </Grid.Column>
-                </Grid.Row>
-
-                <Grid.Row style={{ marginTop: 6, paddingTop: 0 }}>
-                    <Grid.Column width={ 16 } style={{ fontSize: 12 }}>
-                        <div>You must include the full function definition, including arguments, body, and any pertinent scope bindings.</div>
-                        <div>All functions will receive <code>(controller, state, react)</code> as the argument(s).</div>
                     </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row>
                     <Grid.Column width={ 16 }>
                         <Button.Group fluid>
-                            <Button onClick={ e => save() } color="green">Save</Button>
+                            <Button onClick={ e => save() } color="blue">Save</Button>
                             <Button onClick={ e => cancel() }>Cancel</Button>
                         </Button.Group>
                     </Grid.Column>
