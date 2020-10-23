@@ -21,7 +21,13 @@ export default function Section(props = {}) {
             
             {
                 entries.map((entry, i) => (
-                    <Component key={ entry.id } next={ props.next } data={ props.data } entry={ entry } onResponse={ onResponse } />
+                    <Component
+                        key={ entry.id }
+                        controller={ props.controller }
+                        data={ props.data }
+                        entry={ entry }
+                        onResponse={ onResponse }
+                    />
                 ))
             }
         </Segment>

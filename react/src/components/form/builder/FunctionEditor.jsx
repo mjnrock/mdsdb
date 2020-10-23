@@ -9,12 +9,9 @@ export default function FunctionEditor(props = {}) {
     const [ name, setName ] = useState("");
     const [ code, setCode ] = useState(
 `// Example Code
-function(controller, state, react) {
-    // Get the Entry associated where: @id = "QUESTION_ID"
-    const qid = controller.get("QUESTION_ID");
-
-    // Get the React Component internal state variable: @name
-    console.log(react.name);
+function(next, state) {
+    // Invoke a dispatch via next(...)
+    console.log(next);
     
     // Get the Form's @id
     console.log(state.id);

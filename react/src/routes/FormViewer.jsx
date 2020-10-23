@@ -55,7 +55,15 @@ export default function FormViewer(props) {
                 </Segment>
             </Modal>
 
-            <Form data={ data } onResponse={ respond } />
+            <Form
+                // controller={{
+                //     next: node.next,
+                //     enum: EnumMessageType,
+                //     //TODO Add meta form functions (e.g. prompt getter/setter)
+                // }}
+                data={ data }
+                onResponse={ respond }
+            />
         </Segment>
     )
 }

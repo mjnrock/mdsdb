@@ -58,7 +58,7 @@ export default function Component(props = {}) {
             const fn = data.functions[ entry.value ];
 
             if(typeof fn === "function") {
-                fn(props.next, data);
+                fn(data, props.controller);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     } else if(entry.type === EnumComponentType.RESPONSE_RATING) {
@@ -75,7 +75,7 @@ export default function Component(props = {}) {
             const fn = data.functions[ entry.value ];
 
             if(typeof fn === "function") {
-                fn(props.next, data);
+                fn(data, props.controller);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     } else if(entry.type === EnumComponentType.RESPONSE_SLIDER) {

@@ -140,7 +140,14 @@ export default function Form(props = {}) {
                                 </Menu.Item>
                             ) }
                         >
-                            <FormViewer next={ node.next } data={ state } />
+                            <FormViewer
+                                controller={{
+                                    next: node.next,
+                                    enum: EnumMessageType,
+                                    //TODO Add meta form functions (e.g. prompt getter/setter)
+                                }}
+                                data={ state }
+                            />
                         </Modal>
 
                         <Menu.Item onClick={ saveForm }>
