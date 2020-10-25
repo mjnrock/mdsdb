@@ -59,6 +59,7 @@ APP.post("/form/entry/upsert", (req, res) => {
             const db = mongodb.db(DATABASE);
 
             db.collection(`form.${ obj.fid }`).updateOne({
+                id: obj.id,
                 fid: obj.fid,
                 entries: obj.entries,
                 timestamp: Date.now(),

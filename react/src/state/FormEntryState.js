@@ -1,7 +1,9 @@
+import { v4 as uuidv4 } from "uuid";
 import Node from "../lib/Node";
 
 const StateNode = new Node({
     state: {
+        id: uuidv4(),
         data: {},
         entries: {},
     },
@@ -23,6 +25,7 @@ StateNode.addEffect((state, oldState, type) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
+                id: state.id,
                 fid: state.data.id,
                 entries: state.entries
             }),

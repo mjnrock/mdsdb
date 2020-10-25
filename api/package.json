@@ -10,7 +10,8 @@
         "express-ws": "^4.0.0",
         "mongodb": "^3.6.2",
         "mongoose": "^5.10.9",
-        "node-fetch": "^2.6.1"
+        "node-fetch": "^2.6.1",
+        "uuid": "^8.3.1"
     },
     "scripts": {
         "start": "node esm-index.js"
