@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Table, Icon, Input, Dropdown, Grid, TextArea } from "semantic-ui-react";
 
-import { EnumComponentType } from "./../../../state/FormState";
+import { EnumComponentType } from "./../../../state/FormBuilderState";
 
 export default function Component(props = {}) {
     const entry = props.entry;

@@ -3,7 +3,7 @@ import React from "react";
 import { Segment } from "semantic-ui-react";
 
 import Form from "./../components/form/builder/Form";
-import StateNode from "./../state/FormState";
+import StateNode from "./../state/FormBuilderState";
 
 export const Context = React.createContext(StateNode);
 

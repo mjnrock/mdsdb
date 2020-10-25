@@ -6,7 +6,7 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../routes/FormBuilder";
-import { EnumMessageType, EnumComponent } from "./../../../state/FormState";
+import { EnumMessageType, EnumComponent } from "./../../../state/FormBuilderState";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Component from "./Component";

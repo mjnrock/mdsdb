@@ -23,7 +23,7 @@ export default function Section(props = {}) {
                 entries.map((entry, i) => (
                     <Component
                         key={ entry.id }
-                        controller={ props.controller }
+                        node={ props.node }
                         data={ props.data }
                         entry={ entry }
                         onResponse={ onResponse }

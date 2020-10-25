@@ -5,7 +5,7 @@ import MarkdownViewer from "react-markdown";
 
 import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "./../../../routes/FormBuilder";
-import { EnumMessageType } from "../../../state/FormState";
+import { EnumMessageType } from "../../../state/FormBuilderState";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";

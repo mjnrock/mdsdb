@@ -31,7 +31,7 @@ export default function Form(props = {}) {
                 sections.map(section => (
                     <Section
                         key={ section.id }
-                        controller={ props.controller }
+                        node={ props.node }
                         data={ data }
                         section={ section }
                         onResponse={ onResponse }

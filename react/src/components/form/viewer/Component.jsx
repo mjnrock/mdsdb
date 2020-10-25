@@ -5,7 +5,7 @@ import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
 import { BlockMath } from "react-katex";
 
-import { EnumComponentType } from "../../../state/FormState";
+import { EnumComponentType } from "../../../state/FormBuilderState";
 
 export default function Component(props = {}) {
     const entry = props.entry;
@@ -58,7 +58,7 @@ export default function Component(props = {}) {
             const fn = data.functions[ entry.value ];
 
             if(typeof fn === "function") {
-                fn(data, props.controller);
+                fn(data, props.node);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     } else if(entry.type === EnumComponentType.RESPONSE_RATING) {
@@ -75,7 +75,7 @@ export default function Component(props = {}) {
             const fn = data.functions[ entry.value ];
 
             if(typeof fn === "function") {
-                fn(data, props.controller);
+                fn(data, props.node);
             }
         } } style={{ flexGrow: 1 }}>{ entry.label }</Button>
     } else if(entry.type === EnumComponentType.RESPONSE_SLIDER) {
