@@ -29,7 +29,13 @@ export default function Form(props = {}) {
             
             {
                 sections.map(section => (
-                    <Section key={ section.id } section={ section } onResponse={ onResponse } />
+                    <Section
+                        key={ section.id }
+                        node={ props.node }
+                        data={ data }
+                        section={ section }
+                        onResponse={ onResponse }
+                    />
                 ))
             }
         </Segment>

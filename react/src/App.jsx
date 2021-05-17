@@ -28,7 +28,7 @@ function App() {
                             <Routes.FormBuilder />
                         </Route>
                         <Route path="/form/:formId">
-                            <Routes.FormViewer />
+                            <Routes.FormEntry />
                         </Route>
                         <Route path="/survey/builder">
                             <Routes.SurveyBuilder />

@@ -3,16 +3,21 @@ import React, { useState, useEffect } from "react";
 import { Segment, Dimmer, Loader, Modal, Button, Icon } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
 
-import Form from "./../components/form/viewer/Form";
+import Form from "../components/form/viewer/Form";
 import QRCode from "../components/QRCode";
 
-export default function FormViewer(props) {
+import StateNode, { EnumMessageType } from "./../state/FormEntryState";
+
+export default function FormEntry(props) {
     const { formId } = useParams();
+    const [ node, setNode ] = useState();
     const [ data, setData ] = useState();
     const [ responses, setResponses ] = useState({});
     const [ open, setOpen ] = React.useState(false);
 
     useEffect(() => {
+        setNode(StateNode);
+
         fetch(`http://localhost:3001/form/${ formId }`)
             .then(res => res.json())
             .then(d => {
@@ -21,11 +26,28 @@ export default function FormViewer(props) {
             .catch(console.log)
     }, []);
 
+    useEffect(() => {
+        if(node) {
+            node.next(EnumMessageType.FORM_DATA, data);
+        }
+    }, [ data ]);
+    useEffect(() => {
+        if(node) {
+            node.next(EnumMessageType.RESPOND, responses);
+        }
+    }, [ responses ]);
+
     function respond(eid, value) {
         setResponses({
             ...responses,
             [ eid ]: value,
         });
+    }
+
+    function save() {
+        if(node) {
+            node.next(EnumMessageType.SAVE_FORM, responses);
+        }
     }
 
     if(!data) {
@@ -55,7 +77,13 @@ export default function FormViewer(props) {
                 </Segment>
             </Modal>
 
-            <Form data={ data } onResponse={ respond } />
+            <Button onClick={ save }>Save</Button>
+
+            <Form
+                node={ node }
+                data={ data }
+                onResponse={ respond }
+            />
         </Segment>
     )
 }
