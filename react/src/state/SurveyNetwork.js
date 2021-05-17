@@ -23,7 +23,7 @@ export const EnumMessageType = {
     INPUT_MODIFY: "INPUT_MODIFY",
 };
 
-export const SurveyNetwork = new Agency.Event.Network({
+export const SurveyNetwork = () => new Agency.Event.Network({
 	id: uuidv4(),
 	title: "",
 	instructions: "",

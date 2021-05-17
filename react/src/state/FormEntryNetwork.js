@@ -8,7 +8,7 @@ export const EnumMessageType = {
 	RESPOND: "RESPOND",
 };
 
-export const FormEntryNetwork = new Agency.Event.Network({
+export const FormEntryNetwork = () => new Agency.Event.Network({
 	id: uuidv4(),
 	data: {},
 	entries: {},

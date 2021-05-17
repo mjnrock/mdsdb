@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { v4 as uuidv4 } from "uuid";
 import React, { useState } from "react";
 import { Segment, Table } from "semantic-ui-react";

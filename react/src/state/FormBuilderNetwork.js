@@ -306,7 +306,7 @@ export const EnumMessageType = {
 	QUERY_MODIFY: "QUERY_MODIFY",
 };
 
-export const FormBuilderNetwork = new Agency.Event.Network({
+export const FormBuilderNetwork = () => new Agency.Event.Network({
 	id: uuidv4(),
 	title: null,
 	instructions: null,

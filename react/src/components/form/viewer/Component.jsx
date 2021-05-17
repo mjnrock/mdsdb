@@ -5,7 +5,7 @@ import MarkdownViewer from "react-markdown";
 import MarkdownEditor from "./../../MarkdownEditor";
 import { BlockMath } from "react-katex";
 
-import { EnumComponentType } from "../../../state/FormBuilderState";
+import { EnumComponentType } from "../../../state/FormBuilderNetwork";
 
 export default function Component(props = {}) {
     const entry = props.entry;

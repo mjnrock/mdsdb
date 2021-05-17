@@ -1,12 +1,15 @@
-/* eslint-disable */
 import { v4 as uuidv4 } from "uuid";
 import React, { useState } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Input, Table, Icon, Header, Message, Button, Menu, Modal } from "semantic-ui-react";
 
+import { Context } from "./../../routes/Dictionary";
 import Dictionary from "./Dictionary";
 
 
 export default function DictionaryCore(props) {
+    const { state, dispatch } = useContextNetwork(Context, "network");
+	
     const [ open, setOpen ] = React.useState({ main: false });
     const [ dictionaries, setDictionaries ] = useState([
         {

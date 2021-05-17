@@ -4,7 +4,7 @@ import { Segment, Input, Menu, Icon, Button, Modal } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
 import { Context } from "./../../../routes/FormBuilder";
-import { EnumMessageType } from "../../../state/FormBuilderState";
+import { EnumMessageType } from "../../../state/FormBuilderNetwork";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";

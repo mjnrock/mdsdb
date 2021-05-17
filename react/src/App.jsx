@@ -14,13 +14,16 @@ import ScrollToTop from "./components/ScrollToTop";
 import Routes from "./routes/package";
 import SurveyNetwork from "./state/SurveyNetwork"
 
-export const Context = React.createContext(SurveyNetwork);
+export const State = SurveyNetwork();
+export const Context = React.createContext(State);
+
+//FIXME	Survey derives it state from App, while Form derives from state > Form___Network.  Dictionary is WIP, but set up closer to Form.
 
 function App() {
     return (
         <Router>
             <ScrollToTop>
-                <Context.Provider value={{ network: SurveyNetwork }}>
+                <Context.Provider value={{ network: State }}>
                     <Switch>
                         <Route path="/survey/builder">
                             <Routes.SurveyBuilder />

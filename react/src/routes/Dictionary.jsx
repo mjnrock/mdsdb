@@ -1,15 +1,16 @@
 /* eslint-disable */
 import React from "react";
 
-import StateNode from "../state/DictionaryState";
+import DictionaryNetwork from "../state/DictionaryNetwork";
 
 import DictionaryCore from "./../components/dictionary/DictionaryCore";
 
-export const Context = React.createContext(StateNode);
+export const State = DictionaryNetwork();
+export const Context = React.createContext(State);
 
 export default function Dictionary(props) {
     return (
-        <Context.Provider value={ { node: StateNode } }>
+        <Context.Provider value={{ network: State }}>
             <DictionaryCore />
         </Context.Provider>
     );

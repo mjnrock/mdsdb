@@ -3,7 +3,7 @@ import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNe
 import { Table, Icon, Input, Dropdown, Grid, TextArea } from "semantic-ui-react";
 
 import { Context } from "./../../../routes/FormBuilder";
-import { EnumComponentType, EnumMessageType } from "./../../../state/FormBuilderState";
+import { EnumComponentType, EnumMessageType } from "./../../../state/FormBuilderNetwork";
 
 export default function Component(props = {}) {
     const { dispatch } = useContextNetwork(Context, "network");

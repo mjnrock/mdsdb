@@ -7,7 +7,7 @@ import Form from "./viewer/Form";
 import QRCode from "./../QRCode";
 
 import { Context } from "./../../routes/FormEntry";
-import FormEntryNetwork, { EnumMessageType } from "./../../state/FormEntryState";
+import FormEntryNetwork, { EnumMessageType } from "./../../state/FormEntryNetwork";
 
 export default function FormEntry(props) {
     const { formId } = useParams();

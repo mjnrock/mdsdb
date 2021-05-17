@@ -5,7 +5,7 @@ import MarkdownViewer from "react-markdown";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 import { Context } from "./../../../routes/FormBuilder";
-import { EnumMessageType, EnumComponent } from "./../../../state/FormBuilderState";
+import { EnumMessageType, EnumComponent } from "./../../../state/FormBuilderNetwork";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Component from "./Component";
