@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "codemirror": "^5.58.1",
     "fast-equals": "^2.0.0",
+    "json-query": "^2.2.2",
     "mongoose": "^5.10.9",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
