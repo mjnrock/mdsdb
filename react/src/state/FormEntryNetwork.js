@@ -21,31 +21,33 @@ export const FormEntryNetwork = () => new Agency.Event.Network({
 				data: formData,
 			});
 		},
-		[ EnumMessageType.RESPOND ]: ({ data }, { mergeState }) => {
+		[ EnumMessageType.RESPOND ]: ({ data }, { getState, mergeState }) => {
 			const [ responses ] = data;
-			let entries = Object.entries(responses || {}).reduce((a, [ k, v ]) => {
-				if(typeof v === "string" || v instanceof String) {
-					if(v.length) {
-						return {
-							...a,
-							[ k ]: v,
-						};
-					}
+			// let entries = Object.entries(responses || {}).reduce((a, [ k, v ]) => {
+			// 	if(typeof v === "string" || v instanceof String) {
+			// 		if(v.length) {
+			// 			return {
+			// 				...a,
+			// 				[ k ]: v,
+			// 			};
+			// 		}
+					
+			// 		return a;
+			// 	}
+				
+			// 	return {
+			// 		...a,
+			// 		[ k ]: v,
+			// 	};
+			// }, {});
 
-					return a;
-				}
+			// mergeState({
+			// 	entries: entries,
+			// });
 
-				return {
-					...a,
-					[ k ]: v,
-				};
-			}, {});
-
-			if(entries) {
-				mergeState({
-					responses: entries,
-				});
-			}
+			mergeState({
+				entries: responses,
+			});
 		},
 		[ EnumMessageType.SAVE_FORM ]: ({ data }, { getState }) => {
 			const [ formData ] = data;

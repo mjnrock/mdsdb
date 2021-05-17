@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import React from "react";
 import { isSameText } from "@lespantsfancy/agency/lib/util/helper";
 import { Container, Input, Grid, TextArea, Button, Dropdown, Checkbox, Rating } from "semantic-ui-react";
@@ -50,7 +51,35 @@ export default function Component(props = {}) {
     } else if(isSameText(entry.type, EnumComponentType.MISC_COLOR)) {
         input = <Input type="color" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
     } else if(isSameText(entry.type, EnumComponentType.MISC_FILE)) {
-        input = <Input type="file" fluid onChange={ e => onResponse(entry, e.target.value) } style={{ flexGrow: 1 }} />
+        input = <Input type="file" accept="image/*" multiple fluid onChange={ e => {
+			const inputs = e.target.files;
+			const files = [];
+
+			console.log(inputs);
+			
+			for(let file of inputs) {	
+				const reader = new FileReader();
+				reader.onload = e => {
+					const obj = {
+						name: file.name,
+						type: file.type,
+						size: file.size,
+						lastModified: file.lastModified,
+						base64: e.target.result,
+					};
+
+					obj.sha256 =  crypto.createHash("sha256").update(obj.base64).digest("hex");
+
+					files.push(obj);
+	
+					if(Object.keys(files).length === inputs.length) {
+						onResponse(entry, files);
+					}
+				};
+
+				reader.readAsDataURL(file);
+			}
+		}} style={{ flexGrow: 1 }} />
     } else if(isSameText(entry.type, EnumComponentType.MISC_LABEL)) {
         input = <div style={{ flexGrow: 1 }}>{ entry.label }</div>
     } else if(isSameText(entry.type, EnumComponentType.CONTROL_BUTTON)) {
