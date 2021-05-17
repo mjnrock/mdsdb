@@ -3,35 +3,33 @@ import { Segment, Grid, Input, Button, Dropdown, Icon, Menu, Message, Header } f
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/javascript/javascript";
 
-export default function FunctionEditor(props = {}) {
+export default function FunctionEditor({ functions = {}, onSubmit, onSave, onCancel }) {
     const [ current, setCurrent ] = useState("");
     const [ name, setName ] = useState("");
     const [ code, setCode ] = useState(
 `// Example Code
-function(next, state) {
-    // Invoke a dispatch via next(...)
-    console.log(next);
+function(data, dispatch) {
+    // Invoke a dispatch(type, ...payload)
+    console.log(dispatch);
     
-    // Get the Form's @id
-    console.log(state.id);
+    // Get the Form data
+    console.log(data);
 
     return;
 }`
     );
 
-    const functions = props.functions || {};
-
     function save() {
-        if(typeof props.onSubmit === "function") {
-            props.onSubmit(name, code || code.constructor.name);
+        if(typeof onSubmit === "function") {
+            onSubmit(name, code || code.constructor.name);
         }
-        if(typeof props.onSave === "function") {
-            props.onSave();
+        if(typeof onSave === "function") {
+            onSave();
         }
     }
     function cancel() {
-        if(typeof props.onCancel === "function") {
-            props.onCancel();
+        if(typeof onCancel === "function") {
+            onCancel();
         }
     }
 

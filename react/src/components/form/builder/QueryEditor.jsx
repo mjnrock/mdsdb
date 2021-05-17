@@ -3,26 +3,24 @@ import { Segment, Grid, Input, Button, Dropdown, Icon, Menu, Message, Header } f
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/mode/javascript/javascript";
 
-export default function QueryEditor(props = {}) {
+export default function QueryEditor({ queries = {}, onSubmit, onSave, onCancel }) {
     const [ current, setCurrent ] = useState("");
     const [ name, setName ] = useState("");
     const [ query, setQuery ] = useState(
 `// Example Query`
     );
 
-    const queries = props.queries || {};
-
     function save() {
-        if(typeof props.onSubmit === "function") {
-            props.onSubmit(name, query || query.constructor.name);
+        if(typeof onSubmit === "function") {
+            onSubmit(name, query || query.constructor.name);
         }
-        if(typeof props.onSave === "function") {
-            props.onSave();
+        if(typeof onSave === "function") {
+            onSave();
         }
     }
     function cancel() {
-        if(typeof props.onCancel === "function") {
-            props.onCancel();
+        if(typeof onCancel === "function") {
+            onCancel();
         }
     }
 

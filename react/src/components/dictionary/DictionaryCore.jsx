@@ -134,6 +134,14 @@ export default function DictionaryCore(props) {
                     ))
                 }
             </Segment>
+            
+            <Segment color="red" secondary>
+                <pre>
+                    {
+                        JSON.stringify(state, null, 2)
+                    }
+                </pre>
+            </Segment>
         </Segment>
     );
 }
