@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 import { Segment } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
@@ -20,15 +19,19 @@ export default function Section(props = {}) {
             <MarkdownViewer source={ section.text } />
             
             {
-                entries.map((entry, i) => (
-                    <Component
-                        key={ entry.id }
-                        node={ props.node }
-                        data={ props.data }
-                        entry={ entry }
-                        onResponse={ onResponse }
-                    />
-                ))
+                entries.map((entry, i) => {
+					entry.type = entry.type.toUpperCase();
+					
+					return (
+						<Component
+							key={ entry.id }
+							dispatch={ props.dispatch }
+							data={ props.data }
+							entry={ entry }
+							onResponse={ onResponse }
+						/>
+					);
+				})
             }
         </Segment>
     );

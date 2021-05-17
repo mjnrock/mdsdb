@@ -1,58 +1,51 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Icon, Menu, Button, Dropdown, Table } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../routes/FormBuilder";
 import { EnumMessageType, EnumComponent } from "./../../../state/FormBuilderState";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Component from "./Component";
 
-export default function Section(props = {}) {
-    const { node, state } = useNodeContext(Context);
-    const [ text, setText ] = useState(props.section.text);
+export default function Section({ section }) {
+    const { state, dispatch } = useContextNetwork(Context, "network");
+    const [ text, setText ] = useState(section.text);
     const [ isVisible, setIsVisible ] = useState(true);
-    const entries = props.section.entries || [];
+    const entries = section.entries || [];
 
     useEffect(() => {
-        if(props.section.text && props.section.text.length) {
-            setText(props.section.text);
+        if(section.text && section.text.length) {
+            setText(section.text);
         }
-    }, [ props ]);
+    }, [ section ]);
 
     useEffect(() => {
-        node.next(EnumMessageType.SECTION_TEXT, {
-            section: props.section,
+        dispatch(EnumMessageType.SECTION_TEXT, {
+            section: section,
             text,
         });
-    }, [ text ]);
+    }, [ text, section, dispatch ]);
 
     function addEntry(label, type, validator, order) {
-        node.next(EnumMessageType.ENTRY_ADD, {
-            section: props.section,
+        dispatch(EnumMessageType.ENTRY_ADD, {
+            section: section,
             label,
             type,
             validator,
-            order: Math.max(props.section.entries.length, props.section.entries.reduce((a, entry) => Math.max(a, (entry.order || 0)), 0)),
+            order: Math.max(section.entries.length, section.entries.reduce((a, entry) => Math.max(a, (entry.order || 0)), 0)),
         });
     }
     function removeSection() {
-        node.next(EnumMessageType.SECTION_REMOVE, {
-            section: props.section,
-        });
-    }
-    function removeEntry(entry) {
-        node.next(EnumMessageType.ENTRY_REMOVE, {
-            section: props.section,
-            entry,
+        dispatch(EnumMessageType.SECTION_REMOVE, {
+            section: section,
         });
     }
     function modifyEntry(entry, prop, value) {
-        node.next(EnumMessageType.ENTRY_MODIFY, {
-            section: props.section,
+        dispatch(EnumMessageType.ENTRY_MODIFY, {
+            section: section,
             entry,
             newEntry: {
                 ...entry,
@@ -70,9 +63,9 @@ export default function Section(props = {}) {
         }
 
         if(source.droppableId === destination.droppableId) {
-            if(source.droppableId === props.section.id) {
-                node.next(EnumMessageType.ENTRY_REORDER, {
-                    section: props.section,
+            if(source.droppableId === section.id) {
+                dispatch(EnumMessageType.ENTRY_REORDER, {
+                    section: section,
                     left: source.index,
                     right: destination.index,
                 });
@@ -84,7 +77,7 @@ export default function Section(props = {}) {
         <Segment basic color="grey" style={{ paddingRight: 0, paddingTop: 0 }}>
             <Menu size="small" style={{ marginTop: 8, marginBottom: 16 }} >
                 <Menu.Item header style={{ color: "rgb(118, 118, 118)" }}>Section</Menu.Item>
-                <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ props.section.id }</Menu.Item>
+                <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ section.id }</Menu.Item>
                 
                 <Menu.Item onClick={ e => setIsVisible(!isVisible) }>
                     <Button basic labelPosition="left">
@@ -165,7 +158,7 @@ export default function Section(props = {}) {
                 </Table.Header>
 
                 <DragDropContext onDragEnd={ onDragEnd }>
-                    <Droppable droppableId={ props.section.id }>
+                    <Droppable droppableId={ section.id }>
                         { (provided, snapshot) => (
                             <tbody
                                 ref={ provided.innerRef }
@@ -184,7 +177,7 @@ export default function Section(props = {}) {
                                                     ref={ provided.innerRef }
                                                     { ...provided.draggableProps }
                                                 >
-                                                    <Component key={ entry.id } entry={ entry } data={ state } onModify={ modifyEntry } dragHandleProps={ provided.dragHandleProps } />
+                                                    <Component key={ entry.id } section={ section } entry={ entry } data={ state } onModify={ modifyEntry } dragHandleProps={ provided.dragHandleProps } />
                                                 </tr>
                                             ) }
                                         </Draggable>

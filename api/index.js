@@ -61,10 +61,11 @@ APP.post("/form/entry/upsert", (req, res) => {
             db.collection(`form.${ obj.fid }`).updateOne({
                 id: obj.id,
                 fid: obj.fid,
-                entries: obj.entries,
-                timestamp: Date.now(),
             }, {
-                $set: obj,
+                $set: {
+					...obj,
+					timestamp: Date.now(),
+				}
             }, {
                 upsert: true,
             });

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import { Segment, Grid, Input, Button, Dropdown, Icon, Menu, Message, Header } from "semantic-ui-react";
 import { Controlled as CodeMirror } from "react-codemirror2";
@@ -41,7 +40,7 @@ function(next, state) {
             setCode(functions[ current ].toString());
             setName(current);
         }
-    }, [ current ]);
+    }, [ current, functions ]);
 
     return (
         <Segment>

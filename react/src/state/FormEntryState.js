@@ -1,47 +1,71 @@
 import { v4 as uuidv4 } from "uuid";
-import Node from "../lib/Node";
-
-const StateNode = new Node({
-    state: {
-        id: uuidv4(),
-        data: {},
-        entries: {},
-    },
-});
+import Agency from "@lespantsfancy/agency";
 
 export const EnumMessageType = {
-    SAVE_FORM: "SAVE_FORM",
+	SAVE_FORM: "SAVE_FORM",
 
-    FORM_DATA: "FORM_DATA",
-    RESPOND: "RESPOND",
+	FORM_DATA: "FORM_DATA",
+	RESPOND: "RESPOND",
 };
 
-StateNode.addEffect((state, oldState, type) => {
-    if(type === EnumMessageType.SAVE_FORM) {
-        fetch("http://localhost:3001/form/entry/upsert", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id: state.id,
-                fid: state.data.id,
-                entries: state.entries
-            }),
-        });
-    }
+export const FormEntryNetwork = new Agency.Event.Network({
+	id: uuidv4(),
+	data: {},
+	entries: {},
+}, {
+	default: {
+		[ EnumMessageType.FORM_DATA ]: ({ data }, { mergeState }) => {
+			const [ formData ] = data;
+
+			mergeState({
+				data: formData,
+			});
+		},
+		[ EnumMessageType.RESPOND ]: ({ data }, { mergeState }) => {
+			const [ responses ] = data;
+			let entries = Object.entries(responses || {}).reduce((a, [ k, v ]) => {
+				if(typeof v === "string" || v instanceof String) {
+					if(v.length) {
+						return {
+							...a,
+							[ k ]: v,
+						};
+					}
+
+					return a;
+				}
+
+				return {
+					...a,
+					[ k ]: v,
+				};
+			}, {});
+
+			if(entries) {
+				mergeState({
+					responses: entries,
+				});
+			}
+		},
+		[ EnumMessageType.SAVE_FORM ]: ({ data }, { getState }) => {
+			const [ formData ] = data;
+
+			try {
+				const results = JSON.stringify(formData);
+	
+				fetch("http://localhost:3001/form/entry/upsert", {
+					method: "POST",
+					headers: {
+						"Accept": "application/json",
+						"Content-Type": "application/json",
+					},
+					body: results,
+				});
+			} catch(e) {
+				console.error(e)
+			}
+		},
+	},
 });
 
-StateNode.addReducer(Node.TypedPayload(EnumMessageType.FORM_DATA, (state, type, data) => {
-    state.data = data;
-
-    return state;
-}));
-StateNode.addReducer(Node.TypedPayload(EnumMessageType.RESPOND, (state, type, data) => {
-    state.entries = data;
-
-    return state;
-}));
-
-export default StateNode;
+export default FormEntryNetwork;

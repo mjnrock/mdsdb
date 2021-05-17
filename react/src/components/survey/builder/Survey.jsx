@@ -1,18 +1,17 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Input, Menu, Icon, Button, Modal } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../App";
-import { EnumMessageType } from "./../../../state/SurveyState";
+import { EnumMessageType } from "./../../../state/SurveyNetwork";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import Section from "./Section";
 import SurveyViewer from "./../viewer/Survey";
 
 export default function Survey(props = {}) {
-    const { node, state } = useNodeContext(Context);
+    const { state, dispatch } = useContextNetwork(Context, "network");
     // const [ wasModified, setWasModified ] = useState(false);    //TODO Use this or similar to highligh the "Save" icon upon changes (maybe hash state for comparison?)
     const [ title, setTitle ] = useState(state.title);
     const [ instructions, setInstructions ] = useState(state.instructions);
@@ -21,26 +20,26 @@ export default function Survey(props = {}) {
     const sections = state.sections || [];
 
     useEffect(() => {
-        node.next(EnumMessageType.SURVEY_TITLE, {
+        dispatch(EnumMessageType.SURVEY_TITLE, {
             title,
         });
-    }, [ title ]);
+    }, [ dispatch, title ]);
 
     useEffect(() => {
-        node.next(EnumMessageType.SURVEY_INSTRUCTIONS, {
+        dispatch(EnumMessageType.SURVEY_INSTRUCTIONS, {
             instructions,
         });
-    }, [ instructions ]);
+    }, [ dispatch, instructions ]);
 
     function addSection() {
-        node.next(EnumMessageType.SECTION_ADD, {
+        dispatch(EnumMessageType.SECTION_ADD, {
             text: "",
             prompts: [],
         });
     }
 
     function saveSurvey() {
-        node.next(EnumMessageType.SAVE_SURVEY);
+        dispatch(EnumMessageType.SAVE_SURVEY);
     }
 
     return (

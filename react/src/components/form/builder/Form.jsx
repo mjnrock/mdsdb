@@ -1,9 +1,8 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Input, Menu, Icon, Button, Modal } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "./../../../routes/FormBuilder";
 import { EnumMessageType } from "../../../state/FormBuilderState";
 
@@ -14,7 +13,7 @@ import FunctionEditor from "./FunctionEditor";
 import QueryEditor from "./QueryEditor";
 
 export default function Form(props = {}) {
-    const { node, state } = useNodeContext(Context);
+    const { state, dispatch } = useContextNetwork(Context, "network");
     const [ title, setTitle ] = useState(state.title || "");
     const [ instructions, setInstructions ] = useState(state.instructions || "");
     const [ isVisible, setIsVisible ] = useState(true);
@@ -22,42 +21,42 @@ export default function Form(props = {}) {
     const sections = state.sections || [];
 
     useEffect(() => {
-        node.next(EnumMessageType.FORM_TITLE, {
+        dispatch(EnumMessageType.FORM_TITLE, {
             title,
         });
-    }, [ title ]);
+    }, [ title, dispatch ]);
 
     useEffect(() => {
-        node.next(EnumMessageType.FORM_INSTRUCTIONS, {
+        dispatch(EnumMessageType.FORM_INSTRUCTIONS, {
             instructions,
         });
-    }, [ instructions ]);
+    }, [ instructions, dispatch ]);
 
     function addSection() {
-        node.next(EnumMessageType.SECTION_ADD, {
+        dispatch(EnumMessageType.SECTION_ADD, {
             text: "",
         });
     }
     function addQuery() {
-        // node.next(EnumMessageType.QUERY_ADD, {
+        // dispatch(EnumMessageType.QUERY_ADD, {
         //     text: "",
         // });
     }
     function modifyQuery(name, query) {
-        node.next(EnumMessageType.QUERY_MODIFY, {
+        dispatch(EnumMessageType.QUERY_MODIFY, {
             name,
             query,
         });
     }
     function modifyFunction(name, code) {
-        node.next(EnumMessageType.FUNCTION_MODIFY, {
+        dispatch(EnumMessageType.FUNCTION_MODIFY, {
             name,
             code,
         });
     }
 
     function saveForm() {
-        node.next(EnumMessageType.SAVE_FORM);
+        dispatch(EnumMessageType.SAVE_FORM);
     }
 
     return (
@@ -142,7 +141,7 @@ export default function Form(props = {}) {
                         >
                             <FormViewer
                                 controller={{
-                                    next: node.next,
+                                    next: dispatch,
                                     enum: EnumMessageType,
                                     //TODO Add meta form functions (e.g. prompt getter/setter)
                                 }}

@@ -1,44 +1,43 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Icon, Menu, Button } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-import { useNodeContext } from "./../../../lib/ReactContext";
 import { Context } from "./../../../App";
-import { EnumMessageType } from "./../../../state/SurveyState";
+import { EnumMessageType } from "./../../../state/SurveyNetwork";
 
 import MarkdownEditor from "./../../MarkdownEditor";
 import PromptText from "./PromptText";
 import PromptSelection from "./PromptSelection";
 
-export default function Section(props = {}) {
-    const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState(props.section.text);
+export default function Section({ section }) {
+    const { dispatch } = useContextNetwork(Context, "network");
+    const [ text, setText ] = useState(section.text);
     const [ isVisible, setIsVisible ] = useState(true);
-    const prompts = props.section.prompts || [];
+    const prompts = section.prompts || [];
 
     useEffect(() => {
-        if(props.section.text && props.section.text.length) {
-            setText(props.section.text);
+        if(section.text && section.text.length) {
+            setText(section.text);
         }
-    }, [ props ]);
+    }, [ section, dispatch ]);
 
     useEffect(() => {
-        node.next(EnumMessageType.SECTION_TEXT, {
-            section: props.section,
+        dispatch(EnumMessageType.SECTION_TEXT, {
+            section: section,
             text,
         });
-    }, [ text ]);
+    }, [ section, text, dispatch ]);
 
     function addPrompt(type) {
-        node.next(EnumMessageType.PROMPT_ADD, {
+        dispatch(EnumMessageType.PROMPT_ADD, {
             type,
-            section: props.section,
+            section: section,
         });
     }
     function removeSection() {
-        node.next(EnumMessageType.SECTION_REMOVE, {
-            section: props.section,
+        dispatch(EnumMessageType.SECTION_REMOVE, {
+            section: section,
         });
     }
 
@@ -46,7 +45,7 @@ export default function Section(props = {}) {
         <Segment basic color="grey" style={{ paddingRight: 0, paddingTop: 0 }}>
             <Menu size="small" style={{ marginTop: 8, marginBottom: 16 }} >
                 <Menu.Item header style={{ color: "rgb(118, 118, 118)" }}>Section</Menu.Item>
-                <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ props.section.id }</Menu.Item>
+                <Menu.Item header style={{ fontFamily: "monospace", fontWeight: 100, color: "#bbb" }}>{ section.id }</Menu.Item>
 
                 <Menu.Item name="text" onClick={ e => addPrompt(1) }>
                     <Icon.Group size="large">
@@ -114,11 +113,11 @@ export default function Section(props = {}) {
                 prompts.map(prompt => {
                     if(prompt.type === 1) {
                         return (
-                            <PromptText key={ prompt.id } prompt={ prompt } section={ props.section } />
+                            <PromptText key={ prompt.id } prompt={ prompt } section={ section } />
                         );
                     } else if(prompt.type === 2) {
                         return (
-                            <PromptSelection key={ prompt.id } prompt={ prompt } section={ props.section } />
+                            <PromptSelection key={ prompt.id } prompt={ prompt } section={ section } />
                         );
                     }
 

@@ -3,13 +3,13 @@ import React from "react";
 import { Segment } from "semantic-ui-react";
 
 import Form from "./../components/form/builder/Form";
-import StateNode from "./../state/FormBuilderState";
+import FormBuilderState from "./../state/FormBuilderState";
 
-export const Context = React.createContext(StateNode);
+export const Context = React.createContext(FormBuilderState);
 
 export default function FormBuilder(props) {
     return (
-        <Context.Provider value={ { node: StateNode } }>
+        <Context.Provider value={{ network: FormBuilderState }}>
             <Segment>
                 <Form />
             </Segment>

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from "react";
 import { Segment, Header, Message } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
@@ -31,7 +30,7 @@ export default function Form(props = {}) {
                 sections.map(section => (
                     <Section
                         key={ section.id }
-                        node={ props.node }
+                        dispatch={ props.dispatch }
                         data={ data }
                         section={ section }
                         onResponse={ onResponse }

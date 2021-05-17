@@ -1,46 +1,45 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Segment, Menu, Button, Icon, Table, Input } from "semantic-ui-react";
 import MarkdownViewer from "react-markdown";
 
-import { useNodeContext } from "../../../lib/ReactContext";
 import { Context } from "../../../App";
-import { EnumMessageType } from "../../../state/SurveyState";
+import { EnumMessageType } from "../../../state/SurveyNetwork";
 
 import MarkdownEditor from "../../MarkdownEditor";
 
-export default function PromptSelection(props = {}) {
-    const { node } = useNodeContext(Context);
-    const [ text, setText ] = useState(props.prompt.text);
+export default function PromptSelection({ section, prompt }) {
+    const { dispatch } = useContextNetwork(Context, "network");
+    const [ text, setText ] = useState(prompt.text);
     const [ isVisible, setIsVisible ] = useState(true);
-    const inputs = props.prompt.inputs;
+    const inputs = prompt.inputs;
 
     useEffect(() => {
-        node.next(EnumMessageType.PROMPT_TEXT, {
-            prompt: props.prompt,
+        dispatch(EnumMessageType.PROMPT_TEXT, {
+            prompt: prompt,
             text,
         });
-    }, [ text ]);
+    }, [ prompt, text, dispatch ]);
 
     function removePrompt() {
-        node.next(EnumMessageType.PROMPT_REMOVE, {
-            section: props.section,
-            prompt: props.prompt,
+        dispatch(EnumMessageType.PROMPT_REMOVE, {
+            section: section,
+            prompt: prompt,
         });
     }
     function removeInput(input) {
-        node.next(EnumMessageType.INPUT_REMOVE, {
-            prompt: props.prompt,
+        dispatch(EnumMessageType.INPUT_REMOVE, {
+            prompt: prompt,
             input,
         });
     }
     function addInput() {
-        node.next(EnumMessageType.INPUT_ADD, {
-            prompt: props.prompt,
+        dispatch(EnumMessageType.INPUT_ADD, {
+            prompt: prompt,
         });
     }
     function modifyInput(input, field, value) {
-        node.next(EnumMessageType.INPUT_MODIFY, {
+        dispatch(EnumMessageType.INPUT_MODIFY, {
             input,
             field,
             value,
@@ -52,7 +51,7 @@ export default function PromptSelection(props = {}) {
             <Menu size="mini" style={{ marginTop: 8, marginBottom: 8 }} >
                 {/* <Menu.Item header style={ { color: "rgb(33, 133, 208)" } }>Prompt</Menu.Item> */}
                 <Menu.Item header style={ { color: "rgb(163, 51, 200)" } }>Selection</Menu.Item>
-                <Menu.Item header style={ { fontFamily: "monospace", fontWeight: 100, color: "#bbb" } }>{ props.prompt.id }</Menu.Item>
+                <Menu.Item header style={ { fontFamily: "monospace", fontWeight: 100, color: "#bbb" } }>{ prompt.id }</Menu.Item>
 
                 <Menu.Menu position="right">
                     <Menu.Item onClick={ e => setIsVisible(!isVisible) }>

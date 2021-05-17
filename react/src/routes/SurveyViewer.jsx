@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from "react";
 import { Segment, Dimmer, Loader } from "semantic-ui-react";
 import { useParams } from "react-router-dom";
@@ -17,7 +16,7 @@ export default function SurveyViewer(props) {
                 setData(d);
             })
             .catch(console.log)
-    }, []);
+    }, [ surveyId ]);
 
     function respond(eid, value) {
         setResponses({

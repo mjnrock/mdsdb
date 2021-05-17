@@ -1,12 +1,21 @@
-/* eslint-disable */
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useContextNetwork } from "@lespantsfancy/agency/lib/modules/react/useNetwork";
 import { Table, Icon, Input, Dropdown, Grid, TextArea } from "semantic-ui-react";
 
-import { EnumComponentType } from "./../../../state/FormBuilderState";
+import { Context } from "./../../../routes/FormBuilder";
+import { EnumComponentType, EnumMessageType } from "./../../../state/FormBuilderState";
 
 export default function Component(props = {}) {
+    const { dispatch } = useContextNetwork(Context, "network");
     const entry = props.entry;
     const data = props.data || {};
+
+    function removeEntry(entry) {
+        dispatch(EnumMessageType.ENTRY_REMOVE, {
+            section: props.section,
+            entry,
+        });
+    }
 
     function selectComponent() {
         const onModify = props.onModify || (() => true);
